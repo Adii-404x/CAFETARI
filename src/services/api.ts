@@ -782,23 +782,36 @@ export const orderApi = {
         headers: getAuthHeaders()
       });
       const data = await handleResponse<QueueStatus>(res);
-      if (data.success && data.data) return data;
+      if (data.success && data.data && typeof data.data.currentlyServingToken === 'number') {
+        return data;
+      }
     } catch {
       // Fallback
     }
 
     const orders = getStoredOrders();
-    const preparing = orders.filter(o => o.status === 'PREPARING' || o.status === 'ACCEPTED').map(o => o.tokenNumber);
-    const ready = orders.filter(o => o.status === 'READY').map(o => o.tokenNumber);
+    const activeOrders = orders.filter(o => ['PLACED', 'ACCEPTED', 'PREPARING'].includes(o.status));
+    const readyOrders = orders.filter(o => o.status === 'READY');
+
+    let servingToken = readyOrders.length > 0 ? readyOrders[0].tokenNumber : 118;
+    if (readyOrders.length === 0 && activeOrders.length > 0) {
+      servingToken = activeOrders[0].tokenNumber;
+    }
+
+    const totalActive = activeOrders.length;
+    const estWait = Math.max(5, (totalActive || 3) * 2.5);
+    let rush: 'LOW' | 'MODERATE' | 'HIGH' | 'PEAK' = 'LOW';
+    if (totalActive > 12) rush = 'PEAK';
+    else if (totalActive > 6) rush = 'HIGH';
+    else if (totalActive > 2) rush = 'MODERATE';
 
     return {
       success: true,
       data: {
-        preparingOrders: preparing.length > 0 ? preparing : [148, 149],
-        readyOrders: ready.length > 0 ? ready : [146, 147],
-        averageWaitTimeMinutes: 7,
-        activeCounterCount: 4,
-        totalQueueLength: preparing.length + ready.length
+        currentlyServingToken: servingToken || 118,
+        totalActiveOrders: totalActive > 0 ? totalActive : 4,
+        estimatedWaitMinutes: Math.round(estWait) || 10,
+        rushLevel: rush
       }
     };
   }

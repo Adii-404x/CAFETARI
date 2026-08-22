@@ -52,9 +52,51 @@ function playNotificationChime(isReady = false) {
   }
 }
 
+function normalizeQueueStatus(raw: any): QueueStatus {
+  if (!raw) {
+    return {
+      currentlyServingToken: 118,
+      totalActiveOrders: 4,
+      estimatedWaitMinutes: 10,
+      rushLevel: 'MODERATE'
+    };
+  }
+
+  const token = typeof raw.currentlyServingToken === 'number' && raw.currentlyServingToken > 0
+    ? raw.currentlyServingToken
+    : (Array.isArray(raw.readyOrders) && raw.readyOrders.length > 0
+        ? raw.readyOrders[0]
+        : (Array.isArray(raw.preparingOrders) && raw.preparingOrders.length > 0
+            ? raw.preparingOrders[0]
+            : 118));
+
+  const total = typeof raw.totalActiveOrders === 'number' && !isNaN(raw.totalActiveOrders)
+    ? raw.totalActiveOrders
+    : (typeof raw.totalQueueLength === 'number' && !isNaN(raw.totalQueueLength)
+        ? raw.totalQueueLength
+        : 4);
+
+  const wait = typeof raw.estimatedWaitMinutes === 'number' && !isNaN(raw.estimatedWaitMinutes)
+    ? raw.estimatedWaitMinutes
+    : (typeof raw.averageWaitTimeMinutes === 'number' && !isNaN(raw.averageWaitTimeMinutes)
+        ? raw.averageWaitTimeMinutes
+        : Math.max(5, total * 2.5));
+
+  const rush: 'LOW' | 'MODERATE' | 'HIGH' | 'PEAK' = raw.rushLevel || (total > 12 ? 'PEAK' : total > 6 ? 'HIGH' : total > 2 ? 'MODERATE' : 'LOW');
+
+  return {
+    currentlyServingToken: token,
+    totalActiveOrders: total,
+    estimatedWaitMinutes: Math.round(wait) || 10,
+    rushLevel: rush,
+    ordersAheadOfUser: raw.ordersAheadOfUser,
+    userTokenNumber: raw.userTokenNumber
+  };
+}
+
 export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
-  const [queueStatus, setQueueStatus] = useState<QueueStatus | null>({
+  const [queueStatus, setQueueStatus] = useState<QueueStatus>({
     currentlyServingToken: 118,
     totalActiveOrders: 4,
     estimatedWaitMinutes: 10,
@@ -68,7 +110,7 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       const qRes = await orderApi.getQueueStatus();
       if (qRes.success && qRes.data) {
-        setQueueStatus(qRes.data);
+        setQueueStatus(normalizeQueueStatus(qRes.data));
       }
 
       if (user && user.role === 'student') {
@@ -95,7 +137,7 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const unsubscribeStatus = socketService.onOrderStatusUpdated(({ order, previousStatus, queueStatus: newQ }) => {
       if (newQ) {
-        setQueueStatus(newQ);
+        setQueueStatus(normalizeQueueStatus(newQ));
       }
 
       // Check if this status change pertains to this user or current active order
@@ -133,7 +175,7 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const unsubscribeCreated = socketService.onOrderCreated(({ order, queueStatus: newQ }) => {
       if (newQ) {
-        setQueueStatus(newQ);
+        setQueueStatus(normalizeQueueStatus(newQ));
       }
       if (user && order.userId === user.id) {
         setActiveOrder(order);
@@ -141,7 +183,9 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     });
 
     const unsubscribeQueue = socketService.onQueueUpdated(({ queueStatus: newQ }) => {
-      setQueueStatus(newQ);
+      if (newQ) {
+        setQueueStatus(normalizeQueueStatus(newQ));
+      }
     });
 
     return () => {
