@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext.tsx';
-import { useQueue } from '../context/QueueContext.tsx';
-import { useCart } from '../context/CartContext.tsx';
-import { orderApi, foodApi } from '../services/api.ts';
-import { FoodItem, Order } from '../types/index.ts';
-import { QueueTicker } from '../components/QueueTicker.tsx';
-import { MenuCard } from '../components/MenuCard.tsx';
+import { useAuth } from '../context/AuthContext';
+import { useQueue } from '../context/QueueContext';
+import { useCart } from '../context/CartContext';
+import { orderApi, foodApi } from '../services/api';
+import { FoodItem, Order } from '../types/index';
+import { initialFoodItems } from '../data/menuData';
+import { QueueTicker } from '../components/QueueTicker';
+import { MenuCard } from '../components/MenuCard';
 import {
   Utensils,
   Clock,
@@ -43,8 +44,10 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onNavigate, 
           orderApi.getMyOrders()
         ]);
 
-        if (foodRes.success && foodRes.data) {
+        if (foodRes.success && Array.isArray(foodRes.data) && foodRes.data.length > 0) {
           setPopularItems(foodRes.data.filter(f => f.isPopular).slice(0, 4));
+        } else {
+          setPopularItems(initialFoodItems.filter(f => f.isPopular).slice(0, 4));
         }
 
         if (orderRes.success && orderRes.data) {
@@ -85,14 +88,22 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onNavigate, 
       {/* Student Welcome Header */}
       <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 text-slate-900 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-xs">
-              {user?.department || 'Department of Engineering'}
+              {user?.department || 'Department of Computer Science & Engineering'}
             </span>
-            <span className="text-xs text-slate-500 font-medium">ID: {user?.studentId || '2023-CS-104'}</span>
+            <span className="text-xs text-slate-500 font-medium">ID: {user?.studentId || 'CS2023089'}</span>
+            <button
+              onClick={() => onNavigate('user_profile')}
+              className="inline-flex items-center space-x-1 text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 hover:bg-emerald-200 transition-colors cursor-pointer"
+              title="Campus Card Balance - Click to Recharge"
+            >
+              <Wallet className="w-3 h-3 text-emerald-700" />
+              <span>Campus Card: ₹{(user?.walletBalance ?? 500).toFixed(2)}</span>
+            </button>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
-            Welcome back, {user?.name.split(' ')[0]} 👋
+            Welcome back, {user?.name ? user.name.split(' ')[0] : 'Student'} 👋
           </h1>
           <p className="text-xs text-slate-500">
             Check live queue times and place your order in 2 clicks.

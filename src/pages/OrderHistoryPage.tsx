@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { orderApi } from '../services/api.ts';
-import { Order, FoodItem } from '../types/index.ts';
-import { useCart } from '../context/CartContext.tsx';
-import { FeedbackModal } from '../components/FeedbackModal.tsx';
+import { orderApi } from '../services/api';
+import { Order, FoodItem } from '../types/index';
+import { useCart } from '../context/CartContext';
+import { FeedbackModal } from '../components/FeedbackModal';
 import {
   History,
   Clock,

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { UserRole } from '../../src/types/index.ts';
+import { UserRole } from '../../src/types/index';
 
 const JWT_SECRET = process.env.JWT_ACCESS_SECRET || 'cafeteria_jwt_access_super_secret_key_2026';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { OrderStatus } from '../types/index.ts';
+import { OrderStatus } from '../types/index';
 import { CheckCircle2, Clock, ChefHat, Bell, CheckCheck, XCircle } from 'lucide-react';
 
 interface OrderTimelineProps {

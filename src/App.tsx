@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext.tsx';
-import { CartProvider, useCart } from './context/CartContext.tsx';
-import { QueueProvider } from './context/QueueContext.tsx';
-import { Navbar } from './components/Navbar.tsx';
-import { Footer } from './components/Footer.tsx';
-import { CartDrawer } from './components/CartDrawer.tsx';
-import { LiveNotificationToast } from './components/LiveNotificationToast.tsx';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { CartProvider, useCart } from './context/CartContext';
+import { QueueProvider } from './context/QueueContext';
+import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
+import { CartDrawer } from './components/CartDrawer';
+import { LiveNotificationToast } from './components/LiveNotificationToast';
 
 // Pages
-import { LandingPage } from './pages/LandingPage.tsx';
-import { LoginPage } from './pages/LoginPage.tsx';
-import { RegisterPage } from './pages/RegisterPage.tsx';
-import { MenuPage } from './pages/MenuPage.tsx';
-import { StudentDashboard } from './pages/StudentDashboard.tsx';
-import { OrderTrackingPage } from './pages/OrderTrackingPage.tsx';
-import { OrderHistoryPage } from './pages/OrderHistoryPage.tsx';
-import { StaffDashboard } from './pages/StaffDashboard.tsx';
-import { AdminDashboard } from './pages/AdminDashboard.tsx';
-import { CounterQueuePage } from './pages/CounterQueuePage.tsx';
-import { UserProfilePage } from './pages/UserProfilePage.tsx';
+import { LandingPage } from './pages/LandingPage';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
+import { MenuPage } from './pages/MenuPage';
+import { StudentDashboard } from './pages/StudentDashboard';
+import { OrderTrackingPage } from './pages/OrderTrackingPage';
+import { OrderHistoryPage } from './pages/OrderHistoryPage';
+import { StaffDashboard } from './pages/StaffDashboard';
+import { AdminDashboard } from './pages/AdminDashboard';
+import { CounterQueuePage } from './pages/CounterQueuePage';
+import { UserProfilePage } from './pages/UserProfilePage';
 
 function MainApp() {
   const { user, isAuthenticated } = useAuth();

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext.tsx';
-import { CafetariLogo } from '../components/CafetariLogo.tsx';
+import { useAuth } from '../context/AuthContext';
+import { CafetariLogo } from '../components/CafetariLogo';
 import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
-import { UserRole } from '../types/index.ts';
+import { UserRole } from '../types/index';
 
 interface LoginPageProps {
   onNavigate: (view: string) => void;
@@ -24,8 +24,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     setIsLoading(false);
 
     if (res.success) {
-      if (email.includes('admin')) onNavigate('admin_dashboard');
-      else if (email.includes('staff')) onNavigate('staff_kds');
+      const userRole = (res as any).user?.role;
+      if (userRole === 'admin' || email.includes('admin')) onNavigate('admin_dashboard');
+      else if (userRole === 'staff' || email.includes('staff')) onNavigate('staff_kds');
       else onNavigate('student_dashboard');
     } else {
       setErrorMsg(res.message || 'Invalid email or password');

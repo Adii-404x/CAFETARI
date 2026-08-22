@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQueue } from '../context/QueueContext.tsx';
+import { useQueue } from '../context/QueueContext';
 import { Clock, Users, Flame, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 interface QueueTickerProps {

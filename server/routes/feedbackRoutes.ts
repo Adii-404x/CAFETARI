@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { submitFeedback, getFeedbacks } from '../controllers/feedbackController.ts';
-import { authenticate } from '../middleware/auth.ts';
+import { submitFeedback, getFeedbacks } from '../controllers/feedbackController';
+import { authenticate } from '../middleware/auth';
 
 const router = Router();
 

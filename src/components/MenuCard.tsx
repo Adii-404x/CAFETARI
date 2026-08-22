@@ -1,6 +1,6 @@
 import React from 'react';
-import { FoodItem } from '../types/index.ts';
-import { useCart } from '../context/CartContext.tsx';
+import { FoodItem } from '../types/index';
+import { useCart } from '../context/CartContext';
 import { Clock, Flame, Plus, Minus, Check, Sparkles } from 'lucide-react';
 
 interface MenuCardProps {

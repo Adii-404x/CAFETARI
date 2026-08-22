@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import { Order, OrderStatus, FoodItem, QueueStatus } from '../types/index.ts';
+import { Order, OrderStatus, FoodItem, QueueStatus } from '../types/index';
 
 export type SocketConnectionState = 'connected' | 'connecting' | 'disconnected' | 'fallback_polling';
 

@@ -1,9 +1,9 @@
 import { Response } from 'express';
 import { z } from 'zod';
-import { db } from '../db.ts';
-import { AuthRequest } from '../middleware/auth.ts';
-import { Order, OrderStatus, PaymentMethod, QueueStatus } from '../../src/types/index.ts';
-import { emitOrderCreated, emitOrderStatusUpdated, emitQueueUpdated } from '../socket.ts';
+import { db } from '../db';
+import { AuthRequest } from '../middleware/auth';
+import { Order, OrderStatus, PaymentMethod, QueueStatus } from '../../src/types/index';
+import { emitOrderCreated, emitOrderStatusUpdated, emitQueueUpdated } from '../socket';
 
 function calculateCurrentQueueStatus(userId?: string): QueueStatus {
   const allOrders = db.getOrders();
@@ -123,6 +123,14 @@ export async function createOrder(req: AuthRequest, res: Response) {
     };
 
     db.createOrder(newOrder);
+
+    // Deduct student's wallet balance when paying via Campus Card
+    if (validated.paymentMethod === 'CAMPUS_CARD') {
+      const userRecord = db.getUserById(req.user.id);
+      const currentBal = userRecord?.walletBalance ?? 500;
+      const newBal = Math.max(0, currentBal - totalAmount);
+      db.updateUser(req.user.id, { walletBalance: newBal });
+    }
 
     const queueStatus = calculateCurrentQueueStatus(req.user.id);
     emitOrderCreated(newOrder, queueStatus);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CafetariLogo } from './CafetariLogo.tsx';
+import { CafetariLogo } from './CafetariLogo';
 import { MapPin, Phone, ShieldCheck, Heart, Sparkles } from 'lucide-react';
 
 export const Footer: React.FC = () => {

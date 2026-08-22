@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import { DemandPredictionService } from '../ml/demandPredictor.ts';
-import { generateAiDemandInsights } from '../ai/geminiDemandAdvisor.ts';
-import { AuthRequest } from '../middleware/auth.ts';
+import { DemandPredictionService } from '../ml/demandPredictor';
+import { generateAiDemandInsights } from '../ai/geminiDemandAdvisor';
+import { AuthRequest } from '../middleware/auth';
 
 export async function getPredictions(req: AuthRequest, res: Response) {
   try {

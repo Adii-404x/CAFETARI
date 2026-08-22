@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, UserRole } from '../types/index.ts';
-import { authApi } from '../services/api.ts';
+import { User, UserRole } from '../types/index';
+import { authApi } from '../services/api';
 
 interface AuthContextType {
   user: User | null;
@@ -22,12 +22,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('cafeteria_token'));
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const sanitizeUser = (u: User): User => {
+    if (u.email === 'student@cafeteria.edu' || u.name === 'Aarav Sharma' || (u.role === 'student' && (!u.name || u.name === 'Aarav Sharma'))) {
+      return {
+        ...u,
+        name: 'Aditya Singh',
+        studentId: 'CS2023089',
+        department: 'Computer Science & Engineering',
+        walletBalance: typeof u.walletBalance === 'number' ? u.walletBalance : 500
+      };
+    }
+    return u;
+  };
+
   const refreshUser = async () => {
     if (token) {
       try {
         const res = await authApi.getMe();
         if (res.success && res.data) {
-          setUser(res.data);
+          setUser(sanitizeUser(res.data));
         }
       } catch {
         // keep existing state
@@ -42,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
           const res = await authApi.getMe();
           if (res.success && res.data) {
-            setUser(res.data);
+            setUser(sanitizeUser(res.data));
           } else {
             logout();
           }
@@ -58,10 +71,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     const res = await authApi.login({ email, password });
     if (res.success && res.data) {
-      setUser(res.data.user);
+      const cleanUser = sanitizeUser(res.data.user);
+      setUser(cleanUser);
       setToken(res.data.token);
       localStorage.setItem('cafeteria_token', res.data.token);
-      return { success: true, message: res.message };
+      return { success: true, user: cleanUser, message: res.message };
     }
     return { success: false, message: res.message || 'Login failed' };
   };
@@ -72,7 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(res.data.user);
       setToken(res.data.token);
       localStorage.setItem('cafeteria_token', res.data.token);
-      return { success: true, message: res.message };
+      return { success: true, user: res.data.user, message: res.message };
     }
     return { success: false, message: res.message || 'Registration failed' };
   };
@@ -112,6 +126,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         register,
         logout,
+        updateUser,
+        refreshUser,
         switchDemoAccount
       }}
     >

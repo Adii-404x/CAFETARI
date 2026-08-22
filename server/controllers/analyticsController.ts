@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import { db } from '../db.ts';
-import { AuthRequest } from '../middleware/auth.ts';
-import { AnalyticsDashboardData } from '../../src/types/index.ts';
+import { db } from '../db';
+import { AuthRequest } from '../middleware/auth';
+import { AnalyticsDashboardData } from '../../src/types/index';
 
 export async function getDashboardAnalytics(req: AuthRequest, res: Response) {
   const orders = db.getOrders();

@@ -1,8 +1,8 @@
 import { Response } from 'express';
 import { z } from 'zod';
-import { db } from '../db.ts';
-import { AuthRequest } from '../middleware/auth.ts';
-import { Feedback } from '../../src/types/index.ts';
+import { db } from '../db';
+import { AuthRequest } from '../middleware/auth';
+import { Feedback } from '../../src/types/index';
 
 const feedbackSchema = z.object({
   orderId: z.string().min(1, 'Order ID is required'),

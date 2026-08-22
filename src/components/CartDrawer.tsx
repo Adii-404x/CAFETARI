@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useCart } from '../context/CartContext.tsx';
-import { useAuth } from '../context/AuthContext.tsx';
-import { orderApi, foodApi } from '../services/api.ts';
-import { FoodItem, PaymentMethod } from '../types/index.ts';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { orderApi, foodApi } from '../services/api';
+import { FoodItem, PaymentMethod } from '../types/index';
 import confetti from 'canvas-confetti';
 import {
   X,
@@ -26,13 +26,16 @@ interface CartDrawerProps {
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({ onOrderPlaced, onOpenLogin }) => {
   const { items, totalCount, totalAmount, drawerOpen, setDrawerOpen, updateQuantity, removeFromCart, clearCart, addToCart } = useCart();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, updateUser } = useAuth();
 
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('PAY_AT_COUNTER');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('CAMPUS_CARD');
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [recommendations, setRecommendations] = useState<FoodItem[]>([]);
+
+  const walletBalance = user?.walletBalance ?? 500;
+  const isInsufficientWallet = paymentMethod === 'CAMPUS_CARD' && walletBalance < totalAmount;
 
   // Fetch complementary recommendations based on active cart
   useEffect(() => {
@@ -61,6 +64,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOrderPlaced, onOpenLog
 
     if (items.length === 0) return;
 
+    if (paymentMethod === 'CAMPUS_CARD' && walletBalance < totalAmount) {
+      setErrorMsg(`Insufficient Campus Card balance (₹${walletBalance.toFixed(2)}). Total is ₹${totalAmount}. Please switch to UPI QR or top up your card in Profile.`);
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMsg(null);
 
@@ -77,6 +85,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOrderPlaced, onOpenLog
       const res = await orderApi.createOrder(payload);
 
       if (res.success && res.data) {
+        // Deduct wallet balance in client context immediately
+        if (paymentMethod === 'CAMPUS_CARD' && user) {
+          const newBalance = Math.max(0, (user.walletBalance ?? 500) - totalAmount);
+          updateUser({ ...user, walletBalance: newBalance });
+        }
+
         // Trigger celebratory confetti
         confetti({
           particleCount: 80,
@@ -227,35 +241,70 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOrderPlaced, onOpenLog
 
                 {/* Payment Selection */}
                 <div className="space-y-2 pt-2 border-t border-slate-200">
-                  <label className="block text-xs font-bold text-slate-800">
-                    Payment Method
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod('PAY_AT_COUNTER')}
-                      className={`p-2.5 rounded-xl border text-left flex flex-col items-center justify-center text-center transition-all cursor-pointer ${paymentMethod === 'PAY_AT_COUNTER' ? 'bg-emerald-50 border-emerald-600 text-emerald-900 ring-1 ring-emerald-600' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
-                    >
-                      <Banknote className="w-4 h-4 mb-1 text-emerald-700" />
-                      <span className="text-[11px] font-bold">Pay at Counter</span>
-                    </button>
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-bold text-slate-800">
+                      Payment Method
+                    </label>
+                    {paymentMethod === 'CAMPUS_CARD' && (
+                      <span className={`text-[11px] font-bold ${walletBalance < totalAmount ? 'text-rose-600' : 'text-emerald-700'}`}>
+                        Balance: ₹{walletBalance.toFixed(2)}
+                      </span>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-2 gap-2.5">
                     <button
                       type="button"
                       onClick={() => setPaymentMethod('CAMPUS_CARD')}
-                      className={`p-2.5 rounded-xl border text-left flex flex-col items-center justify-center text-center transition-all cursor-pointer ${paymentMethod === 'CAMPUS_CARD' ? 'bg-emerald-50 border-emerald-600 text-emerald-900 ring-1 ring-emerald-600' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                      className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                        paymentMethod === 'CAMPUS_CARD'
+                          ? 'bg-emerald-50/80 border-emerald-600 text-emerald-900 ring-2 ring-emerald-500/20'
+                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                      }`}
                     >
-                      <CreditCard className="w-4 h-4 mb-1 text-emerald-700" />
-                      <span className="text-[11px] font-bold">Campus Card</span>
+                      <div className="flex items-center justify-between w-full mb-1">
+                        <CreditCard className="w-4 h-4 text-emerald-700" />
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100/90 text-emerald-800">
+                          ₹{walletBalance.toFixed(0)}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Digital Campus Card</div>
+                        <div className="text-[10px] text-slate-500">1-Click balance deduction</div>
+                      </div>
                     </button>
+
                     <button
                       type="button"
                       onClick={() => setPaymentMethod('UPI_QR')}
-                      className={`p-2.5 rounded-xl border text-left flex flex-col items-center justify-center text-center transition-all cursor-pointer ${paymentMethod === 'UPI_QR' ? 'bg-emerald-50 border-emerald-600 text-emerald-900 ring-1 ring-emerald-600' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                      className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                        paymentMethod === 'UPI_QR'
+                          ? 'bg-emerald-50/80 border-emerald-600 text-emerald-900 ring-2 ring-emerald-500/20'
+                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                      }`}
                     >
-                      <QrCode className="w-4 h-4 mb-1 text-emerald-700" />
-                      <span className="text-[11px] font-bold">UPI QR</span>
+                      <div className="flex items-center justify-between w-full mb-1">
+                        <QrCode className="w-4 h-4 text-emerald-700" />
+                        <span className="text-[10px] font-semibold text-slate-400">Instant</span>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">UPI / Bharat QR</div>
+                        <div className="text-[10px] text-slate-500">GPay, PhonePe, Paytm</div>
+                      </div>
                     </button>
                   </div>
+
+                  {isInsufficientWallet && (
+                    <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[11px] flex items-center justify-between">
+                      <span>⚠️ Card balance is low (₹{walletBalance.toFixed(2)}). Need ₹{totalAmount}.</span>
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMethod('UPI_QR')}
+                        className="underline font-bold hover:text-amber-900 cursor-pointer ml-1"
+                      >
+                        Use UPI
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Special Instructions */}

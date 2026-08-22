@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { feedbackApi } from '../services/api.ts';
+import { feedbackApi } from '../services/api';
 import { Star, X, CheckCircle2, MessageSquare } from 'lucide-react';
 
 interface FeedbackModalProps {

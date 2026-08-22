@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext.tsx';
-import { authApi, orderApi } from '../services/api.ts';
-import { User, Order } from '../types/index.ts';
+import { useAuth } from '../context/AuthContext';
+import { authApi, orderApi } from '../services/api';
+import { User, Order } from '../types/index';
 import {
   User as UserIcon,
   Mail,
@@ -247,7 +247,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
   const totalSpent = orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
   const completedOrders = orders.filter(o => o.status === 'COMPLETED').length;
-  const currentWalletBalance = user?.walletBalance ?? 450;
+  const currentWalletBalance = user?.walletBalance ?? 500;
 
   if (!user) {
     return (
@@ -770,11 +770,10 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                 Default Checkout Method
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {[
-                  { id: 'CAMPUS_CARD', label: 'Digital Campus Card', desc: 'Instant 1-click deduction' },
-                  { id: 'UPI_QR', label: 'UPI / Bharat QR', desc: 'GPay, PhonePe, Paytm' },
-                  { id: 'PAY_AT_COUNTER', label: 'Pay at Counter', desc: 'Cash / Card at Floor 4th' }
+                  { id: 'CAMPUS_CARD', label: 'Digital Campus Card', desc: 'Instant 1-click contactless deduction' },
+                  { id: 'UPI_QR', label: 'UPI / Bharat QR', desc: 'GPay, PhonePe, Paytm' }
                 ].map((m) => (
                   <button
                     key={m.id}

@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { getPredictions, generateNewPredictions } from '../controllers/predictionController.ts';
-import { authenticate, authorize } from '../middleware/auth.ts';
+import { getPredictions, generateNewPredictions } from '../controllers/predictionController';
+import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router();
 

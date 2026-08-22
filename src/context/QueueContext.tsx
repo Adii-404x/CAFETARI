@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { QueueStatus, Order, OrderStatus } from '../types/index.ts';
-import { orderApi } from '../services/api.ts';
-import { useAuth } from './AuthContext.tsx';
-import { socketService, SocketConnectionState } from '../services/socket.ts';
+import { QueueStatus, Order, OrderStatus } from '../types/index';
+import { orderApi } from '../services/api';
+import { useAuth } from './AuthContext';
+import { socketService, SocketConnectionState } from '../services/socket';
 
 interface LiveStatusNotification {
   id: string;

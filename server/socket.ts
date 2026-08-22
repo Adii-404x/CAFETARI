@@ -1,13 +1,13 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import { Server as HTTPServer } from 'http';
-import { Order, OrderStatus, FoodItem, QueueStatus } from '../src/types/index.ts';
+import { Order, OrderStatus, FoodItem, QueueStatus } from '../src/types/index';
 
 let io: SocketIOServer | null = null;
 
 export function initSocketIO(httpServer: HTTPServer) {
   io = new SocketIOServer(httpServer, {
     cors: {
-      origin: '*',
+      origin: true,
       methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
       credentials: true
     },

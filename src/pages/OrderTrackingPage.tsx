@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { orderApi } from '../services/api.ts';
-import { Order } from '../types/index.ts';
-import { socketService } from '../services/socket.ts';
-import { OrderTimeline } from '../components/OrderTimeline.tsx';
-import { FeedbackModal } from '../components/FeedbackModal.tsx';
+import { orderApi } from '../services/api';
+import { Order } from '../types/index';
+import { socketService } from '../services/socket';
+import { OrderTimeline } from '../components/OrderTimeline';
+import { FeedbackModal } from '../components/FeedbackModal';
 import {
   Clock,
   CheckCircle2,

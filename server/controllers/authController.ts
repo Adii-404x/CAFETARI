@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-import { db } from '../db.ts';
-import { signToken, AuthRequest } from '../middleware/auth.ts';
-import { UserRole } from '../../src/types/index.ts';
+import { db } from '../db';
+import { signToken, AuthRequest } from '../middleware/auth';
+import { UserRole } from '../../src/types/index';
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),

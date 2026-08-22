@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcryptjs';
-import { User, FoodItem, Order, Feedback } from '../src/types/index.ts';
+import { User, FoodItem, Order, Feedback } from '../src/types/index';
 import {
   MongoUserModel,
   MongoFoodItemModel,
@@ -9,9 +9,11 @@ import {
   MongoFeedbackModel,
   MongoSystemConfigModel,
   getMongoStatus
-} from './mongodb.ts';
+} from './mongodb';
 
-const DB_DIR = path.join(process.cwd(), 'data');
+// Configure resilient storage location supporting serverless environments (e.g., Vercel /tmp)
+const IS_SERVERLESS = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NOW_REGION);
+const DB_DIR = IS_SERVERLESS ? path.join('/tmp', 'cafeteria_data') : path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DB_DIR, 'cafeteria_db.json');
 const DB_TMP = path.join(DB_DIR, 'cafeteria_db.tmp.json');
 const DB_BACKUP = path.join(DB_DIR, 'cafeteria_db.backup.json');
@@ -382,6 +384,40 @@ const initialFoodItems: FoodItem[] = [
     tags: ['Cold Drink', 'Lassi', 'Mango Cooler'],
     createdAt: new Date(Date.now() - 30 * 86400000).toISOString(),
     updatedAt: new Date().toISOString()
+  },
+
+  // --- DESSERTS ---
+  {
+    id: 'food_des_1',
+    name: 'Hot Gulab Jamun (2 Pcs)',
+    description: 'Soft melt-in-mouth khoya dumplings deep fried and soaked in warm rose & cardamom-infused sugar syrup.',
+    category: 'Desserts',
+    price: 40,
+    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80',
+    available: true,
+    preparationTime: 2,
+    calories: 280,
+    isVegetarian: true,
+    isPopular: true,
+    tags: ['Sweet', 'Gulab Jamun', 'Warm'],
+    createdAt: new Date(Date.now() - 30 * 86400000).toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'food_des_2',
+    name: 'Chocolate Brownie with Vanilla Scoop',
+    description: 'Warm fudge chocolate brownie topped with a scoop of premium vanilla ice cream and hot chocolate fudge sauce.',
+    category: 'Desserts',
+    price: 75,
+    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80',
+    available: true,
+    preparationTime: 3,
+    calories: 410,
+    isVegetarian: true,
+    isPopular: true,
+    tags: ['Dessert', 'Chocolate', 'Ice Cream'],
+    createdAt: new Date(Date.now() - 30 * 86400000).toISOString(),
+    updatedAt: new Date().toISOString()
   }
 ];
 
@@ -535,6 +571,26 @@ class Database {
         const raw = fs.readFileSync(DB_FILE, 'utf-8');
         const parsed = JSON.parse(raw);
         if (parsed && parsed.foodItems && parsed.users) {
+          // Ensure student identity and refill credits to 500
+          for (const u of parsed.users) {
+            if (u.email === 'student@cafeteria.edu' || u.name === 'Aarav Sharma' || u.id === 'usr_student_1') {
+              u.name = 'Aditya Singh';
+              u.studentId = 'CS2023089';
+              u.department = 'Computer Science & Engineering';
+              u.walletBalance = 500;
+            }
+          }
+          for (const o of (parsed.orders || [])) {
+            if (o.studentName === 'Aarav Sharma' || o.studentEmail === 'student@cafeteria.edu') {
+              o.studentName = 'Aditya Singh';
+            }
+          }
+          for (const f of (parsed.feedbacks || [])) {
+            if (f.studentName === 'Aarav Sharma') {
+              f.studentName = 'Aditya Singh';
+            }
+          }
+          this.save(parsed);
           return parsed;
         }
       }

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useQueue } from '../context/QueueContext.tsx';
+import { useQueue } from '../context/QueueContext';
 import { Bell, CheckCircle2, Flame, Clock, X, ArrowRight, Sparkles } from 'lucide-react';
 
 interface LiveNotificationToastProps {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAuth } from '../context/AuthContext.tsx';
-import { QueueTicker } from '../components/QueueTicker.tsx';
-import { CafetariLogo } from '../components/CafetariLogo.tsx';
+import { useAuth } from '../context/AuthContext';
+import { QueueTicker } from '../components/QueueTicker';
+import { CafetariLogo } from '../components/CafetariLogo';
 import {
   Utensils,
   Sparkles,
@@ -15,7 +15,7 @@ import {
   CheckCircle2,
   MapPin
 } from 'lucide-react';
-import { UserRole } from '../types/index.ts';
+import { UserRole } from '../types/index';
 
 interface LandingPageProps {
   onNavigate: (view: string) => void;

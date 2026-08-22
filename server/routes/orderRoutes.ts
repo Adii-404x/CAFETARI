@@ -6,8 +6,8 @@ import {
   getAllOrders,
   updateOrderStatus,
   getQueueStatus
-} from '../controllers/orderController.ts';
-import { authenticate, optionalAuthenticate, authorize } from '../middleware/auth.ts';
+} from '../controllers/orderController';
+import { authenticate, optionalAuthenticate, authorize } from '../middleware/auth';
 
 const router = Router();
 

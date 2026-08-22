@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AnalyticsDashboardData } from '../types/index.ts';
+import { AnalyticsDashboardData } from '../types/index';
 import {
   TrendingUp,
   ShoppingBag,

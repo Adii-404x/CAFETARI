@@ -6,9 +6,9 @@ import {
   updateFoodItem,
   toggleAvailability,
   deleteFoodItem
-} from '../controllers/foodController.ts';
-import { getFoodRecommendations } from '../controllers/recommendationController.ts';
-import { authenticate, authorize } from '../middleware/auth.ts';
+} from '../controllers/foodController';
+import { getFoodRecommendations } from '../controllers/recommendationController';
+import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router();
 

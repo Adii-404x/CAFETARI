@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
-import { db } from '../db.ts';
-import { FoodItem, FoodCategory } from '../../src/types/index.ts';
-import { emitFoodStockUpdated } from '../socket.ts';
+import { db } from '../db';
+import { FoodItem, FoodCategory } from '../../src/types/index';
+import { emitFoodStockUpdated } from '../socket';
 
 const foodItemSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FoodItem, FoodCategory } from '../types/index.ts';
-import { foodApi } from '../services/api.ts';
-import { MenuCard } from '../components/MenuCard.tsx';
-import { useCart } from '../context/CartContext.tsx';
+import { FoodItem, FoodCategory } from '../types/index';
+import { foodApi } from '../services/api';
+import { initialFoodItems } from '../data/menuData';
+import { MenuCard } from '../components/MenuCard';
+import { useCart } from '../context/CartContext';
 import {
   Search,
   Filter,
@@ -20,8 +21,8 @@ interface MenuPageProps {
 
 export const MenuPage: React.FC<MenuPageProps> = ({ onOpenCart }) => {
   const { totalCount, totalAmount, setDrawerOpen } = useCart();
-  const [items, setItems] = useState<FoodItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [items, setItems] = useState<FoodItem[]>(() => initialFoodItems);
+  const [loading, setLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [vegOnly, setVegOnly] = useState<boolean>(false);
@@ -49,15 +50,56 @@ export const MenuPage: React.FC<MenuPageProps> = ({ onOpenCart }) => {
         sort: sortBy
       });
 
-      if (res.success && res.data) {
+      if (res.success && Array.isArray(res.data) && res.data.length > 0) {
         let filtered = res.data;
         if (vegOnly) {
           filtered = filtered.filter(i => i.isVegetarian);
         }
         setItems(filtered);
+      } else {
+        // Fallback to client-side catalog if API is unavailable or offline
+        let catalog = [...initialFoodItems];
+        if (selectedCategory && selectedCategory !== 'All') {
+          catalog = catalog.filter(i => i.category.toLowerCase() === selectedCategory.toLowerCase());
+        }
+        if (search.trim()) {
+          const q = search.trim().toLowerCase();
+          catalog = catalog.filter(
+            i =>
+              i.name.toLowerCase().includes(q) ||
+              i.description.toLowerCase().includes(q) ||
+              i.tags?.some(t => t.toLowerCase().includes(q))
+          );
+        }
+        if (vegOnly) {
+          catalog = catalog.filter(i => i.isVegetarian);
+        }
+        if (sortBy === 'price_asc') catalog.sort((a, b) => a.price - b.price);
+        else if (sortBy === 'price_desc') catalog.sort((a, b) => b.price - a.price);
+        else if (sortBy === 'prep_time') catalog.sort((a, b) => a.preparationTime - b.preparationTime);
+        else catalog.sort((a, b) => (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0));
+
+        setItems(catalog);
       }
     } catch (err) {
-      console.error('Error fetching menu items:', err);
+      console.warn('Backend API unreachable, using local menu catalog:', err);
+      let catalog = [...initialFoodItems];
+      if (selectedCategory && selectedCategory !== 'All') {
+        catalog = catalog.filter(i => i.category.toLowerCase() === selectedCategory.toLowerCase());
+      }
+      if (search.trim()) {
+        const q = search.trim().toLowerCase();
+        catalog = catalog.filter(
+          i =>
+            i.name.toLowerCase().includes(q) ||
+            i.description.toLowerCase().includes(q) ||
+            i.tags?.some(t => t.toLowerCase().includes(q))
+        );
+      }
+      if (vegOnly) {
+        catalog = catalog.filter(i => i.isVegetarian);
+      }
+      setItems(catalog);
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useQueue } from '../context/QueueContext.tsx';
-import { orderApi } from '../services/api.ts';
-import { Order } from '../types/index.ts';
+import { useQueue } from '../context/QueueContext';
+import { orderApi } from '../services/api';
+import { Order } from '../types/index';
 import {
   Clock,
   Flame,

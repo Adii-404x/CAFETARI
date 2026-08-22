@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { analyticsApi, predictionApi, foodApi, orderApi, systemApi } from '../services/api.ts';
+import { analyticsApi, predictionApi, foodApi, orderApi, systemApi } from '../services/api';
 import {
   AnalyticsDashboardData,
   DemandPredictionResponse,
   FoodItem,
   Order,
   OrderStatus
-} from '../types/index.ts';
-import { FoodModal } from '../components/FoodModal.tsx';
-import { AdminAnalyticsView } from '../components/AdminAnalyticsView.tsx';
+} from '../types/index';
+import { FoodModal } from '../components/FoodModal';
+import { AdminAnalyticsView } from '../components/AdminAnalyticsView';
 import {
   LayoutDashboard,
   TrendingUp,

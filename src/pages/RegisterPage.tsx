@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext.tsx';
-import { CafetariLogo } from '../components/CafetariLogo.tsx';
+import { useAuth } from '../context/AuthContext';
+import { CafetariLogo } from '../components/CafetariLogo';
 import { Lock, Mail, User as UserIcon, Building, Phone, ArrowRight } from 'lucide-react';
-import { UserRole } from '../types/index.ts';
+import { UserRole } from '../types/index';
 
 interface RegisterPageProps {
   onNavigate: (view: string) => void;

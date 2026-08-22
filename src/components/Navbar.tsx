@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext.tsx';
-import { useCart } from '../context/CartContext.tsx';
-import { useQueue } from '../context/QueueContext.tsx';
-import { CafetariLogo } from './CafetariLogo.tsx';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import { useQueue } from '../context/QueueContext';
+import { CafetariLogo } from './CafetariLogo';
 import {
   Utensils,
   ShoppingBag,
@@ -19,7 +19,7 @@ import {
   ShieldCheck,
   ChevronDown
 } from 'lucide-react';
-import { UserRole } from '../types/index.ts';
+import { UserRole } from '../types/index';
 
 interface NavbarProps {
   currentView: string;

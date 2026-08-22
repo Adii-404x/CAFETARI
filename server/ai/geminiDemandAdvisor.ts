@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { ItemPrediction, AiDemandInsights } from '../../src/types/index.ts';
+import { ItemPrediction, AiDemandInsights } from '../../src/types/index';
 
 let aiClient: GoogleGenAI | null = null;
 

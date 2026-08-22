@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FoodItem, FoodCategory } from '../types/index.ts';
-import { foodApi } from '../services/api.ts';
+import { FoodItem, FoodCategory } from '../types/index';
+import { foodApi } from '../services/api';
 import { X, Utensils, Sparkles, Image as ImageIcon } from 'lucide-react';
 
 interface FoodModalProps {

@@ -1,5 +1,5 @@
-import { db } from '../db.ts';
-import { FoodItem, DemandPredictionResponse, ItemPrediction, MLModelMetrics, FoodCategory } from '../../src/types/index.ts';
+import { db } from '../db';
+import { FoodItem, DemandPredictionResponse, ItemPrediction, MLModelMetrics, FoodCategory } from '../../src/types/index';
 
 interface DataPoint {
   dayOfWeek: number; // 0 (Sun) to 6 (Sat)

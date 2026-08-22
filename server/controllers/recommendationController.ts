@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { db } from '../db.ts';
+import { db } from '../db';
 
 export async function getFoodRecommendations(req: Request, res: Response) {
   const { currentItemIds } = req.query;

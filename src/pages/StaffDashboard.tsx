@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { orderApi, foodApi } from '../services/api.ts';
-import { Order, OrderStatus, FoodItem } from '../types/index.ts';
-import { socketService } from '../services/socket.ts';
+import { orderApi, foodApi } from '../services/api';
+import { Order, OrderStatus, FoodItem } from '../types/index';
+import { socketService } from '../services/socket';
 import {
   ChefHat,
   Clock,
