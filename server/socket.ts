@@ -11,19 +11,19 @@ export function initSocketIO(httpServer: HTTPServer) {
       methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
       credentials: true
     },
-    pingInterval: 10000,
-    pingTimeout: 5000,
-    transports: ['websocket', 'polling']
+    pingInterval: 25000,
+    pingTimeout: 20000,
+    transports: ['polling', 'websocket'],
+    allowUpgrades: true,
+    connectTimeout: 45000,
+    cookie: false
   });
 
   io.on('connection', (socket: Socket) => {
-    console.log(`🔌 [Socket.IO] Client connected: ${socket.id}`);
-
     // Join user-specific room
     socket.on('join:user', (userId: string) => {
       if (userId) {
         socket.join(`user:${userId}`);
-        console.log(`[Socket.IO] Socket ${socket.id} joined user:${userId}`);
       }
     });
 
@@ -31,7 +31,6 @@ export function initSocketIO(httpServer: HTTPServer) {
     socket.on('join:role', (role: string) => {
       if (role) {
         socket.join(`role:${role}`);
-        console.log(`[Socket.IO] Socket ${socket.id} joined role:${role}`);
       }
     });
 
@@ -42,8 +41,15 @@ export function initSocketIO(httpServer: HTTPServer) {
       }
     });
 
+    socket.on('error', (err) => {
+      console.warn(`[Socket.IO] Non-fatal socket error (${socket.id}):`, err);
+    });
+
     socket.on('disconnect', (reason) => {
-      console.log(`🔌 [Socket.IO] Client disconnected: ${socket.id} (${reason})`);
+      // Benign disconnects during client reload, tab close, or transport upgrade are silent
+      if (reason !== 'transport error' && reason !== 'transport close' && reason !== 'client namespace disconnect') {
+        console.log(`🔌 [Socket.IO] Client disconnected: ${socket.id} (${reason})`);
+      }
     });
   });
 

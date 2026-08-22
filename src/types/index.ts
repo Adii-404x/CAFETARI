@@ -229,3 +229,24 @@ export interface CartItem {
   foodItem: FoodItem;
   quantity: number;
 }
+
+export interface RecommendedAddOn {
+  foodItem: FoodItem;
+  matchScore: number; // 0-100%
+  confidence: number; // 0.0-1.0
+  lift: number; // e.g. 3.4x
+  support?: number;
+  jaccardSimilarity?: number;
+  reason: string;
+  pairedWithItemName?: string;
+  pairedWithItemId?: string;
+  algorithm?: 'Apriori Association Rules' | 'Item-Item Collaborative Filtering' | 'Hybrid Meal Affinity';
+  category: FoodCategory;
+  affinityTags?: string[];
+}
+
+export interface MLRecommendationMeta {
+  algorithm: string;
+  totalTransactionsAnalyzed: number;
+  primaryCartItem?: string;
+}

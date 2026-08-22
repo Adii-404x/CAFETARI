@@ -1,23 +1,36 @@
 import { Request, Response } from 'express';
-import { db } from '../db';
+import { AssociationRecommender } from '../ml/associationRecommender';
 
 export async function getFoodRecommendations(req: Request, res: Response) {
-  const { currentItemIds } = req.query;
-  const foodItems = db.getFoodItems().filter(f => f.available);
+  try {
+    const { currentItemIds, limit, hour, dietaryPreference } = req.query;
 
-  const parsedIds = currentItemIds ? (currentItemIds as string).split(',') : [];
+    const parsedIds = currentItemIds
+      ? (typeof currentItemIds === 'string' ? currentItemIds.split(',') : (currentItemIds as string[]))
+      : [];
 
-  // Complementary pairings heuristic based on categories
-  const recommendations = foodItems.filter(f => !parsedIds.includes(f.id));
+    const numLimit = limit ? parseInt(limit as string, 10) : 4;
+    const targetHour = hour ? parseInt(hour as string, 10) : undefined;
+    const dietPref = dietaryPreference ? (dietaryPreference as string) : undefined;
 
-  // If cart has spicy/meal items, prioritize beverages and desserts
-  let prioritized = recommendations.filter(f => f.category === 'Beverages' || f.category === 'Desserts' || f.isPopular);
-  if (prioritized.length < 3) {
-    prioritized = recommendations;
+    const result = AssociationRecommender.getRecommendations({
+      currentItemIds: parsedIds,
+      limit: numLimit,
+      targetHour,
+      dietaryPreference: dietPref
+    });
+
+    return res.json({
+      success: true,
+      data: result.recommendations,
+      meta: result.meta
+    });
+  } catch (err: any) {
+    console.error('Error generating ML food recommendations:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to generate recommendations.',
+      error: err.message
+    });
   }
-
-  return res.json({
-    success: true,
-    data: prioritized.slice(0, 4)
-  });
 }

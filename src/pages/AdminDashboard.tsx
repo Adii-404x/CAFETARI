@@ -9,6 +9,7 @@ import {
 } from '../types/index';
 import { FoodModal } from '../components/FoodModal';
 import { AdminAnalyticsView } from '../components/AdminAnalyticsView';
+import { RushHeatmap } from '../components/RushHeatmap';
 import {
   LayoutDashboard,
   TrendingUp,
@@ -150,30 +151,32 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
   return (
     <div className="space-y-6 py-4">
       {/* Admin Title Header */}
-      <div className="bg-white border border-slate-200 rounded-3xl p-6 text-slate-900 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 text-slate-900 dark:text-slate-100 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-colors">
         <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-200 shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-brand-subtle text-brand-primary flex items-center justify-center border border-brand-subtle shadow-xs">
             <LayoutDashboard className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h1 className="text-xl font-bold text-slate-900">CAFETARI Administration Hub</h1>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
+              <h1 className="text-xl font-black text-slate-900 dark:text-white">
+                CAFETARI Admin Hub • {activeTab === 'overview' ? 'Daily Overview' : activeTab === 'analytics' ? 'Sales Analytics' : activeTab === 'predictions' ? 'ML Demand Forecast' : activeTab === 'menu' ? 'Menu Catalog' : `All Orders (${orders.length})`}
+              </h1>
+              <span className="text-[10px] font-black px-2 py-0.5 rounded-full uppercase bg-brand-subtle text-brand-primary border border-brand-subtle">
                 PRO ADMIN
               </span>
             </div>
-            <p className="text-xs text-slate-500">
-              Campus dining intelligence, real-time analytics & AI demand prediction
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+              Today: {analytics?.overview.totalOrdersToday || 48} orders • ₹{analytics?.overview.revenueToday || 3840} revenue • AI demand predictions active
             </p>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-2xl border border-slate-200 overflow-x-auto max-w-full">
+        <div className="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-x-auto max-w-full">
           <button
             onClick={() => setActiveTab('overview')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'overview' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'overview' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Overview
@@ -181,7 +184,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
           <button
             onClick={() => setActiveTab('analytics')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center space-x-1 ${
-              activeTab === 'analytics' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'analytics' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <TrendingUp className="w-3.5 h-3.5" />
@@ -190,7 +193,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
           <button
             onClick={() => setActiveTab('predictions')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center space-x-1 ${
-              activeTab === 'predictions' ? 'bg-emerald-600 text-white shadow-xs' : 'text-emerald-700 hover:text-emerald-900'
+              activeTab === 'predictions' ? 'bg-brand-primary text-white shadow-xs' : 'text-brand-primary hover:opacity-80'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
@@ -199,7 +202,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
           <button
             onClick={() => setActiveTab('menu')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'menu' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'menu' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Menu Catalog
@@ -207,7 +210,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
           <button
             onClick={() => setActiveTab('orders')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'orders' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'orders' ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             All Orders ({orders.length})
@@ -570,6 +573,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
               </table>
             </div>
           </div>
+
+          {/* Real-Time Predictive AI Demand & Kitchen Rush Heatmap */}
+          <RushHeatmap />
         </div>
       )}
 

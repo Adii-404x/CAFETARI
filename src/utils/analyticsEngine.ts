@@ -74,7 +74,7 @@ export function computeClientAnalytics(
   ];
 
   const paymentMethodDistribution = [
-    { method: 'Campus Card (RFID/NFC)', count: 98, revenue: 8900, percentage: 58 },
+    { method: 'Digital Campus Wallet', count: 98, revenue: 8900, percentage: 58 },
     { method: 'UPI / BharatQR', count: 54, revenue: 5200, percentage: 32 },
     { method: 'Pay at Counter (Cash)', count: 16, revenue: 1400, percentage: 10 }
   ];

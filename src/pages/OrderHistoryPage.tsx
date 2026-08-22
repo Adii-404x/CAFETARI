@@ -75,23 +75,23 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
   return (
     <div className="space-y-6 py-4">
       {/* Header */}
-      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 text-slate-900 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 text-slate-900 dark:text-slate-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-colors">
         <div className="space-y-1">
-          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
-            <History className="w-3 h-3 text-emerald-600" />
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-brand-subtle border border-brand-subtle text-brand-primary text-[10px] font-bold uppercase tracking-wider">
+            <History className="w-3 h-3 text-brand-primary" />
             <span>Past Campus Dining</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
-            Your Order History
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+            {search.trim() ? `Order History • Search for "${search}" (${filteredOrders.length})` : `Your Order History (${orders.length} ${orders.length === 1 ? 'Receipt' : 'Receipts'})`}
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             View receipts, live statuses, and re-order in 1 tap.
           </p>
         </div>
 
         <button
           onClick={() => onNavigate('menu')}
-          className="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center space-x-2 shadow-xs transition-colors cursor-pointer"
+          className="px-5 py-3 rounded-xl bg-brand-primary hover:bg-brand-hover text-white font-bold text-xs flex items-center space-x-2 shadow-xs transition-all cursor-pointer"
         >
           <Utensils className="w-4 h-4" />
           <span>New Order</span>
@@ -99,7 +99,7 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row gap-3 items-center justify-between shadow-xs">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row gap-3 items-center justify-between shadow-xs">
         <div className="relative w-full sm:max-w-xs">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -107,7 +107,7 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search order #, token, or item..."
-            className="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand font-medium"
           />
         </div>
 

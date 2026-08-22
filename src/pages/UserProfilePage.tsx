@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme, THEME_PRESETS, ThemeColor } from '../context/ThemeContext';
 import { authApi, orderApi } from '../services/api';
 import { User, Order } from '../types/index';
 import {
@@ -27,7 +28,11 @@ import {
   QrCode,
   BadgeCheck,
   RefreshCw,
-  Plus
+  Plus,
+  Palette,
+  Sun,
+  Moon,
+  Monitor
 } from 'lucide-react';
 
 interface UserProfilePageProps {
@@ -38,6 +43,7 @@ type TabType = 'overview' | 'personal' | 'preferences' | 'wallet' | 'security';
 
 export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) => {
   const { user, updateUser, refreshUser, logout } = useAuth();
+  const { mode, colorTheme, setMode, setColorTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('overview');
 
   // Form states for Personal Info
@@ -272,37 +278,39 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
   return (
     <div className="space-y-6 pb-12 animate-in fade-in duration-200">
       {/* Top Header Navigation Breadcrumb */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-4">
         <div>
-          <div className="flex items-center space-x-2 text-xs text-slate-500 mb-1">
+          <div className="flex items-center space-x-2 text-xs text-slate-500 dark:text-slate-400 mb-1">
             <button
               onClick={() => onNavigate(user.role === 'admin' ? 'admin_dashboard' : user.role === 'staff' ? 'staff_kds' : 'student_dashboard')}
-              className="hover:text-emerald-700 transition-colors flex items-center space-x-1"
+              className="hover:text-brand-primary transition-colors flex items-center space-x-1"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to Dashboard</span>
             </button>
             <span>/</span>
-            <span className="text-slate-900 font-medium">Account Settings</span>
+            <span className="text-slate-900 dark:text-white font-medium">Account Settings</span>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Student Profile & Settings</h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Manage your personal profile, campus ID card, dietary choices, and digital wallet.
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+            {user.role === 'admin' ? `Administrator Profile • ${user.name}` : user.role === 'staff' ? `Kitchen Staff Profile • ${user.name}` : `Student Profile & Wallet • ${user.name}`}
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
+            Manage your personal profile, campus ID card, dietary choices, and digital wallet balance (₹{currentWalletBalance.toFixed(2)}).
           </p>
         </div>
 
         <div className="flex items-center space-x-2.5">
           <button
             onClick={() => onNavigate('order_history')}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition-colors flex items-center space-x-1.5 cursor-pointer"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs transition-colors flex items-center space-x-1.5 cursor-pointer"
           >
-            <Clock className="w-3.5 h-3.5 text-slate-500" />
-            <span>Order History</span>
+            <Clock className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+            <span>Order History ({orders.length})</span>
           </button>
 
           <button
             onClick={() => onNavigate('menu')}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-primary hover:bg-brand-hover text-white shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
           >
             <Utensils className="w-3.5 h-3.5" />
             <span>Order Food</span>
@@ -331,7 +339,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           onClick={() => setActiveTab('overview')}
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'overview'
-              ? 'border-emerald-600 text-emerald-700'
+              ? 'border-brand-primary text-brand-primary'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -343,7 +351,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           onClick={() => setActiveTab('personal')}
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'personal'
-              ? 'border-emerald-600 text-emerald-700'
+              ? 'border-brand-primary text-brand-primary'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -355,19 +363,19 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           onClick={() => setActiveTab('preferences')}
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'preferences'
-              ? 'border-emerald-600 text-emerald-700'
+              ? 'border-brand-primary text-brand-primary'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
           <Heart className="w-4 h-4" />
-          <span>Dietary & Alerts</span>
+          <span>Dietary & Ambiance</span>
         </button>
 
         <button
           onClick={() => setActiveTab('wallet')}
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'wallet'
-              ? 'border-emerald-600 text-emerald-700'
+              ? 'border-brand-primary text-brand-primary'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -379,7 +387,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           onClick={() => setActiveTab('security')}
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'security'
-              ? 'border-emerald-600 text-emerald-700'
+              ? 'border-brand-primary text-brand-primary'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -851,6 +859,89 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     onChange={(e) => setSoundAlerts(e.target.checked)}
                     className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
                   />
+                </div>
+              </div>
+            </div>
+
+            {/* Campus Theme & Appearance Chooser */}
+            <div className="space-y-3 pt-4 border-t border-slate-100">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
+                    <Palette className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Campus Theme & Ambiance</span>
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    Choose your personalized campus color accent and dark mode display
+                  </p>
+                </div>
+              </div>
+
+              {/* Theme Swatch Selection */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                {(Object.keys(THEME_PRESETS) as ThemeColor[]).map((themeKey) => {
+                  const cfg = THEME_PRESETS[themeKey];
+                  const isSelected = colorTheme === themeKey;
+
+                  return (
+                    <button
+                      key={themeKey}
+                      type="button"
+                      onClick={() => setColorTheme(themeKey)}
+                      className={`p-3 rounded-2xl border text-left flex items-center space-x-2.5 transition-all cursor-pointer ${
+                        isSelected
+                          ? 'border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-500/20'
+                          : 'border-slate-200 bg-slate-50 hover:bg-slate-100/80'
+                      }`}
+                    >
+                      <div
+                        className="w-5 h-5 rounded-lg shrink-0 shadow-2xs"
+                        style={{ backgroundColor: cfg.primaryColor }}
+                      />
+                      <div className="min-w-0">
+                        <div className="font-bold text-xs text-slate-900 truncate">{cfg.name}</div>
+                        <div className="text-[10px] text-slate-500 truncate">{cfg.badge}</div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Light / Dark / Auto Mode Selector */}
+              <div className="pt-2">
+                <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 rounded-2xl border border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setMode('light')}
+                    className={`py-2 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
+                      mode === 'light' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <Sun className="w-3.5 h-3.5 text-amber-500" />
+                    <span>Light Mode</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setMode('dark')}
+                    className={`py-2 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
+                      mode === 'dark' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <Moon className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>Dark Mode</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setMode('system')}
+                    className={`py-2 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
+                      mode === 'system' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <Monitor className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Auto OS</span>
+                  </button>
                 </div>
               </div>
             </div>

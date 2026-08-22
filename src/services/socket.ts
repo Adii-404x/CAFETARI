@@ -22,36 +22,34 @@ class SocketService {
   private activeOrderId: string | null = null;
 
   public init(userId?: string, role?: string) {
-    if (this.socket && this.socket.connected) {
-      if (userId && userId !== this.currentUserId) {
-        this.currentUserId = userId;
-        this.socket.emit('join:user', userId);
-      }
-      if (role && role !== this.currentRole) {
-        this.currentRole = role;
-        this.socket.emit('join:role', role);
+    this.currentUserId = userId || null;
+    this.currentRole = role || null;
+
+    // If socket is already established, simply update joined rooms
+    if (this.socket) {
+      if (this.socket.connected) {
+        if (this.currentUserId) this.socket.emit('join:user', this.currentUserId);
+        if (this.currentRole) this.socket.emit('join:role', this.currentRole);
       }
       return;
     }
 
-    this.currentUserId = userId || null;
-    this.currentRole = role || null;
     this.setConnectionState('connecting');
 
     try {
-      // Connect to same origin
+      // Connect starting with HTTP long-polling and seamlessly upgrade to websocket
       this.socket = io({
         path: '/socket.io',
-        transports: ['websocket', 'polling'],
+        transports: ['polling', 'websocket'],
         reconnection: true,
-        reconnectionAttempts: 10,
+        reconnectionAttempts: Infinity,
         reconnectionDelay: 1000,
         reconnectionDelayMax: 5000,
-        timeout: 10000
+        timeout: 20000,
+        autoConnect: true
       });
 
       this.socket.on('connect', () => {
-        console.log('⚡ [Socket.IO Client] Connected to real-time server:', this.socket?.id);
         this.setConnectionState('connected');
 
         if (this.currentUserId) {
@@ -66,17 +64,17 @@ class SocketService {
       });
 
       this.socket.on('disconnect', (reason) => {
-        console.warn('⚠️ [Socket.IO Client] Disconnected:', reason);
-        this.setConnectionState(reason === 'io server disconnect' ? 'disconnected' : 'fallback_polling');
+        if (reason === 'io server disconnect') {
+          this.socket?.connect();
+        }
+        this.setConnectionState('fallback_polling');
       });
 
-      this.socket.on('connect_error', (err) => {
-        console.warn('⚠️ [Socket.IO Client] Connection error (falling back to polling):', err.message);
+      this.socket.on('connect_error', () => {
         this.setConnectionState('fallback_polling');
       });
 
       this.socket.on('order:status_updated', (payload) => {
-        console.log('📢 [Realtime Event] order:status_updated received:', payload);
         this.statusUpdateListeners.forEach(cb => {
           try {
             cb(payload);
@@ -87,7 +85,6 @@ class SocketService {
       });
 
       this.socket.on('order:created', (payload) => {
-        console.log('📢 [Realtime Event] order:created received:', payload);
         this.orderCreatedListeners.forEach(cb => {
           try {
             cb(payload);
@@ -117,7 +114,7 @@ class SocketService {
         });
       });
     } catch (err) {
-      console.error('Socket initialization failed:', err);
+      console.warn('Socket initialization fallback to polling:', err);
       this.setConnectionState('fallback_polling');
     }
   }
@@ -134,8 +131,10 @@ class SocketService {
   }
 
   private setConnectionState(state: SocketConnectionState) {
-    this.connectionState = state;
-    this.connectionListeners.forEach(cb => cb(state));
+    if (this.connectionState !== state) {
+      this.connectionState = state;
+      this.connectionListeners.forEach(cb => cb(state));
+    }
   }
 
   public onConnectionStateChange(cb: ConnectionCallback): () => void {

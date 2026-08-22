@@ -140,8 +140,8 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setQueueStatus(normalizeQueueStatus(newQ));
       }
 
-      // Check if this status change pertains to this user or current active order
-      const isMyOrder = user && (order.userId === user.id || (activeOrder && activeOrder.id === order.id));
+      // Check if this status change pertains to this user
+      const isMyOrder = user && (order.userId === user.id);
       
       if (isMyOrder) {
         if (['COMPLETED', 'CANCELLED'].includes(order.status)) {
@@ -194,7 +194,14 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       unsubscribeCreated();
       unsubscribeQueue();
     };
-  }, [user, activeOrder]);
+  }, [user]);
+
+  // Track active order room independently
+  useEffect(() => {
+    if (activeOrder?.id) {
+      socketService.trackOrder(activeOrder.id);
+    }
+  }, [activeOrder?.id]);
 
   // Initial fetch and Fallback Polling Loop
   useEffect(() => {

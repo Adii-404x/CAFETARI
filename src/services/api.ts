@@ -6,11 +6,13 @@ import {
   AnalyticsDashboardData,
   DemandPredictionResponse,
   QueueStatus,
-  UserRole
+  UserRole,
+  RecommendedAddOn
 } from '../types/index';
 import { initialFoodItems } from '../data/menuData';
 import { runClientPredictionPipeline } from '../utils/mlEngine';
 import { computeClientAnalytics } from '../utils/analyticsEngine';
+import { ClientAssociationEngine } from '../utils/associationEngine';
 
 const API_BASE = '/api';
 
@@ -487,17 +489,34 @@ export const foodApi = {
     };
   },
 
-  async getRecommendations(currentItemIds?: string[]) {
+  async getRecommendations(currentItemIds?: string[], options?: { limit?: number; dietaryPreference?: string }) {
     try {
-      const query = currentItemIds && currentItemIds.length > 0 ? `?currentItemIds=${currentItemIds.join(',')}` : '';
-      const res = await fetch(`${API_BASE}/food-items/recommendations${query}`);
-      const data = await handleResponse<FoodItem[]>(res);
-      if (data.success && data.data && data.data.length > 0) return data;
+      const query = new URLSearchParams();
+      if (currentItemIds && currentItemIds.length > 0) {
+        query.set('currentItemIds', currentItemIds.join(','));
+      }
+      if (options?.limit) {
+        query.set('limit', String(options.limit));
+      }
+      if (options?.dietaryPreference) {
+        query.set('dietaryPreference', options.dietaryPreference);
+      }
+
+      const res = await fetch(`${API_BASE}/food-items/recommendations?${query.toString()}`);
+      const data = await handleResponse<RecommendedAddOn[]>(res);
+      if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+        return data;
+      }
     } catch {
       // Fallback
     }
 
-    const recs = initialFoodItems.filter(i => i.isPopular && (!currentItemIds || !currentItemIds.includes(i.id))).slice(0, 4);
+    const recs = ClientAssociationEngine.getRecommendations(
+      currentItemIds || [],
+      initialFoodItems,
+      options?.limit || 4
+    );
+
     return {
       success: true,
       data: recs

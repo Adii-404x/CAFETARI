@@ -1,1 +1,215 @@
 @import "tailwindcss";
+
+/* 
+  CAFETARI Campus Dynamic Theming Engine 
+  Supports 5 Campus Palettes & Smooth Ambient Glows
+*/
+
+:root {
+  --brand-primary: #059669;
+  --brand-hover: #047857;
+  --brand-accent: #10b981;
+  --brand-subtle-bg: #ecfdf5;
+  --brand-subtle-text: #065f46;
+  --brand-subtle-border: #a7f3d0;
+  --brand-page-bg: #f8fafc;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(5, 150, 105, 0.06) 0px, transparent 50%);
+  --brand-glow: rgba(16, 185, 129, 0.28);
+  --brand-gradient: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+  --brand-card-bg: linear-gradient(135deg, #064e3b 0%, #047857 50%, #0f172a 100%);
+  --brand-ring: rgba(16, 185, 129, 0.4);
+}
+
+[data-theme="emerald"] {
+  --brand-primary: #059669;
+  --brand-hover: #047857;
+  --brand-accent: #10b981;
+  --brand-subtle-bg: #ecfdf5;
+  --brand-subtle-text: #065f46;
+  --brand-subtle-border: #a7f3d0;
+  --brand-page-bg: #f8fafc;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(5, 150, 105, 0.06) 0px, transparent 50%);
+  --brand-glow: rgba(16, 185, 129, 0.28);
+  --brand-gradient: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+  --brand-card-bg: linear-gradient(135deg, #064e3b 0%, #047857 50%, #0f172a 100%);
+  --brand-ring: rgba(16, 185, 129, 0.4);
+}
+
+[data-theme="saffron"] {
+  --brand-primary: #d97706;
+  --brand-hover: #b45309;
+  --brand-accent: #f59e0b;
+  --brand-subtle-bg: #fffbeb;
+  --brand-subtle-text: #92400e;
+  --brand-subtle-border: #fde68a;
+  --brand-page-bg: #fffdf5;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(245, 158, 11, 0.1) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(217, 119, 6, 0.08) 0px, transparent 50%);
+  --brand-glow: rgba(245, 158, 11, 0.3);
+  --brand-gradient: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+  --brand-card-bg: linear-gradient(135deg, #78350f 0%, #b45309 50%, #1c1917 100%);
+  --brand-ring: rgba(245, 158, 11, 0.4);
+}
+
+[data-theme="indigo"] {
+  --brand-primary: #4f46e5;
+  --brand-hover: #4338ca;
+  --brand-accent: #6366f1;
+  --brand-subtle-bg: #eef2ff;
+  --brand-subtle-text: #3730a3;
+  --brand-subtle-border: #c7d2fe;
+  --brand-page-bg: #faf5ff;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.09) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(79, 70, 229, 0.07) 0px, transparent 50%);
+  --brand-glow: rgba(99, 102, 241, 0.3);
+  --brand-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --brand-card-bg: linear-gradient(135deg, #312e81 0%, #4338ca 50%, #0f172a 100%);
+  --brand-ring: rgba(99, 102, 241, 0.4);
+}
+
+[data-theme="crimson"] {
+  --brand-primary: #e11d48;
+  --brand-hover: #be123c;
+  --brand-accent: #f43f5e;
+  --brand-subtle-bg: #fff1f2;
+  --brand-subtle-text: #9f1239;
+  --brand-subtle-border: #fecdd3;
+  --brand-page-bg: #fff5f6;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(244, 63, 94, 0.09) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(225, 29, 72, 0.07) 0px, transparent 50%);
+  --brand-glow: rgba(244, 63, 94, 0.3);
+  --brand-gradient: linear-gradient(135deg, #e11d48 0%, #db2777 100%);
+  --brand-card-bg: linear-gradient(135deg, #881337 0%, #be123c 50%, #181114 100%);
+  --brand-ring: rgba(244, 63, 94, 0.4);
+}
+
+[data-theme="midnight"] {
+  --brand-primary: #0284c7;
+  --brand-hover: #0369a1;
+  --brand-accent: #38bdf8;
+  --brand-subtle-bg: #f0f9ff;
+  --brand-subtle-text: #075985;
+  --brand-subtle-border: #bae6fd;
+  --brand-page-bg: #f0fdfa;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(56, 189, 248, 0.1) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(2, 132, 199, 0.08) 0px, transparent 50%);
+  --brand-glow: rgba(56, 189, 248, 0.35);
+  --brand-gradient: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+  --brand-card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0369a1 100%);
+  --brand-ring: rgba(56, 189, 248, 0.4);
+}
+
+/* Dark mode theme color overrides (Clean Dark Slate, never harsh pitch black) */
+.dark[data-theme="emerald"] {
+  --brand-subtle-bg: rgba(6, 78, 59, 0.35);
+  --brand-subtle-text: #6ee7b7;
+  --brand-subtle-border: rgba(5, 150, 105, 0.4);
+  --brand-page-bg: #0f172a;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(5, 150, 105, 0.1) 0px, transparent 50%);
+}
+
+.dark[data-theme="saffron"] {
+  --brand-subtle-bg: rgba(120, 53, 15, 0.35);
+  --brand-subtle-text: #fcd34d;
+  --brand-subtle-border: rgba(217, 119, 6, 0.4);
+  --brand-page-bg: #181512;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(245, 158, 11, 0.12) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(217, 119, 6, 0.1) 0px, transparent 50%);
+}
+
+.dark[data-theme="indigo"] {
+  --brand-subtle-bg: rgba(49, 46, 129, 0.35);
+  --brand-subtle-text: #a5b4fc;
+  --brand-subtle-border: rgba(79, 70, 229, 0.4);
+  --brand-page-bg: #0f1423;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(79, 70, 229, 0.1) 0px, transparent 50%);
+}
+
+.dark[data-theme="crimson"] {
+  --brand-subtle-bg: rgba(136, 19, 55, 0.35);
+  --brand-subtle-text: #fda4af;
+  --brand-subtle-border: rgba(225, 29, 72, 0.4);
+  --brand-page-bg: #1a0f13;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(244, 63, 94, 0.12) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(225, 29, 72, 0.1) 0px, transparent 50%);
+}
+
+.dark[data-theme="midnight"] {
+  --brand-subtle-bg: rgba(8, 47, 73, 0.45);
+  --brand-subtle-text: #7dd3fc;
+  --brand-subtle-border: rgba(14, 116, 144, 0.45);
+  --brand-page-bg: #0b1320;
+  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                       radial-gradient(at 90% 90%, rgba(2, 132, 199, 0.12) 0px, transparent 50%);
+}
+
+/* Global Smooth Transitions for Theme Morphing */
+html, body {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  background-color: var(--brand-page-bg);
+}
+
+/* Dynamic theme helper utility classes */
+.bg-brand-primary {
+  background-color: var(--brand-primary) !important;
+}
+
+.bg-brand-hover:hover {
+  background-color: var(--brand-hover) !important;
+}
+
+.text-brand-primary {
+  color: var(--brand-primary) !important;
+}
+
+.text-brand-accent {
+  color: var(--brand-accent) !important;
+}
+
+.border-brand-primary {
+  border-color: var(--brand-primary) !important;
+}
+
+.border-brand-subtle {
+  border-color: var(--brand-subtle-border) !important;
+}
+
+.bg-brand-subtle {
+  background-color: var(--brand-subtle-bg) !important;
+}
+
+.text-brand-subtle {
+  color: var(--brand-subtle-text) !important;
+}
+
+.bg-brand-gradient {
+  background-image: var(--brand-gradient) !important;
+}
+
+.text-brand-gradient {
+  background-image: var(--brand-gradient) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+.bg-brand-card {
+  background-image: var(--brand-card-bg) !important;
+}
+
+.shadow-brand {
+  box-shadow: 0 10px 25px -5px var(--brand-glow) !important;
+}
+
+.ring-brand {
+  --tw-ring-color: var(--brand-ring) !important;
+}
+
+.theme-canvas {
+  background-color: var(--brand-page-bg);
+  background-image: var(--brand-canvas-mesh);
+}
