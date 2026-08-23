@@ -41,11 +41,11 @@ export const ThemeChooserModal: React.FC<ThemeChooserModalProps> = ({ isOpen, on
               </div>
               <div>
                 <h3 className="font-black text-base text-slate-900 dark:text-white flex items-center space-x-2">
-                  <span>CAFETARI Theme Chooser</span>
+                  <span>Campus Color Palettes</span>
                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Personalize the campus dining & live tracker ambiance
+                  Cyber Terminal & HUD • Personalize your campus dining ambiance
                 </p>
               </div>
             </div>

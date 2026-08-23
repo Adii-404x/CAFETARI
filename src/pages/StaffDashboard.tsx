@@ -196,14 +196,14 @@ export const StaffDashboard: React.FC = () => {
         /* 4-Column Hyper-Dynamic Kanban KDS */
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Col 1: Incoming Orders */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-4 flex flex-col h-[750px] shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 flex flex-col h-[750px] shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
               <div className="flex items-center space-x-2">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
                 </span>
-                <h3 className="font-black text-xs uppercase tracking-wider text-amber-900">
+                <h3 className="font-black text-xs uppercase tracking-wider text-amber-900 dark:text-amber-400">
                   1. Incoming ({placedOrders.length})
                 </h3>
               </div>
@@ -211,7 +211,7 @@ export const StaffDashboard: React.FC = () => {
 
             <div className="flex-1 overflow-y-auto space-y-3 pr-1">
               {placedOrders.length === 0 ? (
-                <div className="text-center py-16 text-slate-400 text-xs">No pending incoming tickets</div>
+                <div className="text-center py-16 text-slate-400 dark:text-slate-500 text-xs">No pending incoming tickets</div>
               ) : (
                 placedOrders.map(order => {
                   const elapsed = getOrderElapsedMinutes(order.placedAt);
@@ -221,35 +221,35 @@ export const StaffDashboard: React.FC = () => {
                     <motion.div
                       layout
                       key={order.id}
-                      className={`bg-slate-50 border-2 rounded-2xl p-4 space-y-3 shadow-sm transition-all ${
-                        isUrgent ? 'border-rose-400 bg-rose-50/40 animate-pulse' : 'border-amber-300'
+                      className={`bg-slate-50 dark:bg-slate-800/80 border-2 rounded-2xl p-4 space-y-3 shadow-sm transition-all ${
+                        isUrgent ? 'border-rose-400 bg-rose-50/40 dark:bg-rose-950/30 animate-pulse' : 'border-amber-300 dark:border-amber-700/60'
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-lg font-black text-amber-900">
+                        <span className="text-lg font-black text-amber-900 dark:text-amber-300">
                           Token #{order.tokenNumber}
                         </span>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/70 text-amber-900 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
                           {elapsed}m ago
                         </span>
                       </div>
 
                       <div className="space-y-0.5 text-xs">
-                        <div className="font-black text-slate-900">{order.studentName}</div>
-                        <div className="text-[11px] text-slate-500 font-mono">{order.paymentMethod}</div>
+                        <div className="font-black text-slate-900 dark:text-white">{order.studentName}</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">{order.paymentMethod}</div>
                       </div>
 
-                      <div className="bg-white rounded-xl p-2.5 space-y-1.5 divide-y divide-slate-100 border border-slate-200">
+                      <div className="bg-white dark:bg-slate-900/90 rounded-xl p-2.5 space-y-1.5 divide-y divide-slate-100 dark:divide-slate-800 border border-slate-200 dark:border-slate-700">
                         {order.items.map(item => (
-                          <div key={item.foodItemId} className="pt-1.5 first:pt-0 flex justify-between text-xs text-slate-800">
-                            <span className="font-black text-emerald-700">{item.quantity}x</span>
+                          <div key={item.foodItemId} className="pt-1.5 first:pt-0 flex justify-between text-xs text-slate-800 dark:text-slate-200">
+                            <span className="font-black text-emerald-700 dark:text-emerald-400">{item.quantity}x</span>
                             <span className="truncate flex-1 ml-2 font-medium">{item.name}</span>
                           </div>
                         ))}
                       </div>
 
                       {order.notes && (
-                        <div className="text-[11px] bg-amber-50 text-amber-900 p-2 rounded-xl border border-amber-200 font-medium">
+                        <div className="text-[11px] bg-amber-50 dark:bg-amber-950/50 text-amber-900 dark:text-amber-300 p-2 rounded-xl border border-amber-200 dark:border-amber-800 font-medium">
                           ⚠️ {order.notes}
                         </div>
                       )}
@@ -269,11 +269,11 @@ export const StaffDashboard: React.FC = () => {
           </div>
 
           {/* Col 2: In Kitchen Prep */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-4 flex flex-col h-[750px] shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 flex flex-col h-[750px] shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
               <div className="flex items-center space-x-2">
-                <ChefHat className="w-4 h-4 text-emerald-600" />
-                <h3 className="font-black text-xs uppercase tracking-wider text-slate-800">
+                <ChefHat className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <h3 className="font-black text-xs uppercase tracking-wider text-slate-800 dark:text-slate-200">
                   2. In Preparation ({preparingOrders.length})
                 </h3>
               </div>
@@ -281,7 +281,7 @@ export const StaffDashboard: React.FC = () => {
 
             <div className="flex-1 overflow-y-auto space-y-3 pr-1">
               {preparingOrders.length === 0 ? (
-                <div className="text-center py-16 text-slate-400 text-xs">No active kitchen orders</div>
+                <div className="text-center py-16 text-slate-400 dark:text-slate-500 text-xs">No active kitchen orders</div>
               ) : (
                 preparingOrders.map(order => {
                   const elapsed = getOrderElapsedMinutes(order.placedAt);
@@ -291,28 +291,28 @@ export const StaffDashboard: React.FC = () => {
                     <motion.div
                       layout
                       key={order.id}
-                      className={`bg-slate-50 border rounded-2xl p-4 space-y-3 shadow-sm ${
-                        isDelayed ? 'border-rose-400 bg-rose-50/50' : 'border-slate-300'
+                      className={`bg-slate-50 dark:bg-slate-800/80 border rounded-2xl p-4 space-y-3 shadow-sm ${
+                        isDelayed ? 'border-rose-400 bg-rose-50/50 dark:bg-rose-950/30' : 'border-slate-300 dark:border-slate-700'
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-lg font-black text-slate-900">
+                        <span className="text-lg font-black text-slate-900 dark:text-white">
                           Token #{order.tokenNumber}
                         </span>
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDelayed ? 'bg-rose-100 text-rose-800 border-rose-300' : 'bg-emerald-50 text-emerald-800 border-emerald-200'}`}>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDelayed ? 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800' : 'bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'}`}>
                           Cooking {elapsed}m
                         </span>
                       </div>
 
                       <div className="space-y-0.5 text-xs">
-                        <div className="font-black text-slate-900">{order.studentName}</div>
-                        <div className="text-[11px] text-slate-500">Target Prep: ~{order.estimatedPreparationTime} mins</div>
+                        <div className="font-black text-slate-900 dark:text-white">{order.studentName}</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400">Target Prep: ~{order.estimatedPreparationTime} mins</div>
                       </div>
 
-                      <div className="bg-white rounded-xl p-2.5 space-y-1.5 divide-y divide-slate-100 border border-slate-200">
+                      <div className="bg-white dark:bg-slate-900/90 rounded-xl p-2.5 space-y-1.5 divide-y divide-slate-100 dark:divide-slate-800 border border-slate-200 dark:border-slate-700">
                         {order.items.map(item => (
-                          <div key={item.foodItemId} className="pt-1.5 first:pt-0 flex justify-between text-xs text-slate-800">
-                            <span className="font-black text-emerald-700">{item.quantity}x</span>
+                          <div key={item.foodItemId} className="pt-1.5 first:pt-0 flex justify-between text-xs text-slate-800 dark:text-slate-200">
+                            <span className="font-black text-emerald-700 dark:text-emerald-400">{item.quantity}x</span>
                             <span className="truncate flex-1 ml-2 font-medium">{item.name}</span>
                           </div>
                         ))}
@@ -333,11 +333,11 @@ export const StaffDashboard: React.FC = () => {
           </div>
 
           {/* Col 3: Ready at Counter */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-4 flex flex-col h-[750px] shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 flex flex-col h-[750px] shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
               <div className="flex items-center space-x-2">
-                <Bell className="w-4 h-4 text-emerald-600 animate-bounce" />
-                <h3 className="font-black text-xs uppercase tracking-wider text-emerald-900">
+                <Bell className="w-4 h-4 text-emerald-600 dark:text-emerald-400 animate-bounce" />
+                <h3 className="font-black text-xs uppercase tracking-wider text-emerald-900 dark:text-emerald-400">
                   3. Ready for Pickup ({readyOrders.length})
                 </h3>
               </div>
@@ -345,16 +345,16 @@ export const StaffDashboard: React.FC = () => {
 
             <div className="flex-1 overflow-y-auto space-y-3 pr-1">
               {readyOrders.length === 0 ? (
-                <div className="text-center py-16 text-slate-400 text-xs">No food waiting at counter</div>
+                <div className="text-center py-16 text-slate-400 dark:text-slate-500 text-xs">No food waiting at counter</div>
               ) : (
                 readyOrders.map(order => (
                   <motion.div
                     layout
                     key={order.id}
-                    className="bg-emerald-50/80 border-2 border-emerald-400 rounded-2xl p-4 space-y-3 shadow-md"
+                    className="bg-emerald-50/80 dark:bg-emerald-950/40 border-2 border-emerald-400 dark:border-emerald-600 rounded-2xl p-4 space-y-3 shadow-md"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-black text-emerald-950">
+                      <span className="text-2xl font-black text-emerald-950 dark:text-emerald-200">
                         Token #{order.tokenNumber}
                       </span>
                       <span className="text-[10px] font-black bg-emerald-600 text-white px-2.5 py-0.5 rounded-full uppercase shadow-xs">
@@ -362,14 +362,14 @@ export const StaffDashboard: React.FC = () => {
                       </span>
                     </div>
 
-                    <div className="text-xs font-black text-slate-900">
+                    <div className="text-xs font-black text-slate-900 dark:text-white">
                       {order.studentName}
                     </div>
 
-                    <div className="bg-white rounded-xl p-2.5 text-xs text-slate-700 space-y-1 border border-emerald-200">
+                    <div className="bg-white dark:bg-slate-900/90 rounded-xl p-2.5 text-xs text-slate-700 dark:text-slate-200 space-y-1 border border-emerald-200 dark:border-emerald-800">
                       {order.items.map(item => (
                         <div key={item.foodItemId} className="flex justify-between">
-                          <span className="font-bold text-emerald-700">{item.quantity}x</span>
+                          <span className="font-bold text-emerald-700 dark:text-emerald-400">{item.quantity}x</span>
                           <span className="truncate flex-1 ml-2 font-medium">{item.name}</span>
                         </div>
                       ))}
@@ -389,11 +389,11 @@ export const StaffDashboard: React.FC = () => {
           </div>
 
           {/* Col 4: Completed History */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-4 flex flex-col h-[750px] shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 flex flex-col h-[750px] shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
               <div className="flex items-center space-x-2">
-                <CheckCircle2 className="w-4 h-4 text-slate-400" />
-                <h3 className="font-black text-xs uppercase tracking-wider text-slate-600">
+                <CheckCircle2 className="w-4 h-4 text-slate-400 dark:text-slate-500" />
+                <h3 className="font-black text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300">
                   4. Completed Today ({completedOrders.length})
                 </h3>
               </div>
@@ -403,13 +403,13 @@ export const StaffDashboard: React.FC = () => {
               {completedOrders.map(order => (
                 <div
                   key={order.id}
-                  className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-1 text-slate-600"
+                  className="p-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs space-y-1 text-slate-600 dark:text-slate-300"
                 >
-                  <div className="flex justify-between font-black text-slate-800">
+                  <div className="flex justify-between font-black text-slate-800 dark:text-slate-200">
                     <span>Token #{order.tokenNumber}</span>
-                    <span className="text-emerald-700 font-bold">₹{order.totalAmount}</span>
+                    <span className="text-emerald-700 dark:text-emerald-400 font-bold">₹{order.totalAmount}</span>
                   </div>
-                  <div className="text-[11px] truncate text-slate-500">
+                  <div className="text-[11px] truncate text-slate-500 dark:text-slate-400">
                     {order.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}
                   </div>
                 </div>
@@ -422,11 +422,11 @@ export const StaffDashboard: React.FC = () => {
         <RushHeatmap />
       ) : (
         /* Stock Management Screen */
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 text-slate-900 space-y-6 shadow-sm">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 text-slate-900 dark:text-slate-100 space-y-6 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <h2 className="text-base font-black text-slate-900">Instant Kitchen Inventory & Stock Toggle</h2>
-              <p className="text-xs text-slate-500">
+              <h2 className="text-base font-black text-slate-900 dark:text-white">Instant Kitchen Inventory & Stock Toggle</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 1-Tap item blackout when an ingredient is exhausted to immediately stop student orders
               </p>
             </div>
@@ -440,7 +440,7 @@ export const StaffDashboard: React.FC = () => {
                   className={`px-3.5 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                     stockFilterCategory === cat
                       ? 'bg-emerald-600 text-white shadow-sm'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {cat}
@@ -457,26 +457,26 @@ export const StaffDashboard: React.FC = () => {
                   key={item.id}
                   className={`p-4 rounded-2xl border flex items-center justify-between gap-3 transition-all ${
                     item.available
-                      ? 'bg-white border-slate-200 shadow-sm'
-                      : 'bg-rose-50/40 border-rose-200 opacity-80'
+                      ? 'bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 shadow-sm'
+                      : 'bg-rose-50/40 dark:bg-rose-950/30 border-rose-200 dark:border-rose-800/60 opacity-80'
                   }`}
                 >
                   <div className="flex items-center space-x-3 min-w-0">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-12 h-12 rounded-xl object-cover bg-slate-100 border border-slate-200 shrink-0"
+                      className="w-12 h-12 rounded-xl object-cover bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 shrink-0"
                     />
                     <div className="min-w-0">
-                      <h4 className="font-black text-xs text-slate-900 truncate">{item.name}</h4>
-                      <div className="text-[11px] text-slate-500">
+                      <h4 className="font-black text-xs text-slate-900 dark:text-white truncate">{item.name}</h4>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">
                         ₹{item.price} • {item.category}
                       </div>
                       <span
                         className={`inline-block mt-0.5 text-[10px] font-black px-2 py-0.5 rounded-full uppercase ${
                           item.available
-                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                            : 'bg-rose-50 text-rose-800 border border-rose-200'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                            : 'bg-rose-50 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
                         }`}
                       >
                         {item.available ? 'In Stock' : 'Out of Stock'}
@@ -488,8 +488,8 @@ export const StaffDashboard: React.FC = () => {
                     onClick={() => handleToggleStock(item.id)}
                     className={`p-2.5 rounded-xl text-xs font-black flex items-center space-x-1.5 transition-all cursor-pointer shadow-xs ${
                       item.available
-                        ? 'bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200'
-                        : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'
+                        ? 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900/80 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
+                        : 'bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/80 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                     }`}
                   >
                     {item.available ? (

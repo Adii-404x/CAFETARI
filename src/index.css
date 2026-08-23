@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* 
   CAFETARI Campus Dynamic Theming Engine 
   Supports 5 Campus Palettes & Smooth Ambient Glows
@@ -101,50 +103,62 @@
   --brand-ring: rgba(56, 189, 248, 0.4);
 }
 
-/* Dark mode theme color overrides (Clean Dark Slate, never harsh pitch black) */
+/* Dark mode theme color overrides (Aesthetic Deep Aurora & Slate Gradients) */
+.dark {
+  --brand-page-bg: #070a12;
+  --brand-canvas-mesh: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.14) 0px, transparent 55%),
+                       radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 55%),
+                       radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 60%);
+}
+
 .dark[data-theme="emerald"] {
-  --brand-subtle-bg: rgba(6, 78, 59, 0.35);
+  --brand-subtle-bg: rgba(6, 78, 59, 0.4);
   --brand-subtle-text: #6ee7b7;
-  --brand-subtle-border: rgba(5, 150, 105, 0.4);
-  --brand-page-bg: #0f172a;
-  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
-                       radial-gradient(at 90% 90%, rgba(5, 150, 105, 0.1) 0px, transparent 50%);
+  --brand-subtle-border: rgba(16, 185, 129, 0.4);
+  --brand-page-bg: #070d14;
+  --brand-canvas-mesh: radial-gradient(at 5% 5%, rgba(16, 185, 129, 0.18) 0px, transparent 55%),
+                       radial-gradient(at 95% 15%, rgba(6, 182, 212, 0.12) 0px, transparent 55%),
+                       radial-gradient(at 50% 95%, rgba(5, 150, 105, 0.15) 0px, transparent 60%);
 }
 
 .dark[data-theme="saffron"] {
-  --brand-subtle-bg: rgba(120, 53, 15, 0.35);
-  --brand-subtle-text: #fcd34d;
-  --brand-subtle-border: rgba(217, 119, 6, 0.4);
-  --brand-page-bg: #181512;
-  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(245, 158, 11, 0.12) 0px, transparent 50%),
-                       radial-gradient(at 90% 90%, rgba(217, 119, 6, 0.1) 0px, transparent 50%);
+  --brand-subtle-bg: rgba(120, 53, 15, 0.4);
+  --brand-subtle-text: #fde68a;
+  --brand-subtle-border: rgba(245, 158, 11, 0.4);
+  --brand-page-bg: #0d0a07;
+  --brand-canvas-mesh: radial-gradient(at 5% 5%, rgba(245, 158, 11, 0.18) 0px, transparent 55%),
+                       radial-gradient(at 95% 15%, rgba(234, 88, 12, 0.14) 0px, transparent 55%),
+                       radial-gradient(at 50% 95%, rgba(217, 119, 6, 0.12) 0px, transparent 60%);
 }
 
 .dark[data-theme="indigo"] {
-  --brand-subtle-bg: rgba(49, 46, 129, 0.35);
-  --brand-subtle-text: #a5b4fc;
-  --brand-subtle-border: rgba(79, 70, 229, 0.4);
-  --brand-page-bg: #0f1423;
-  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-                       radial-gradient(at 90% 90%, rgba(79, 70, 229, 0.1) 0px, transparent 50%);
+  --brand-subtle-bg: rgba(49, 46, 129, 0.4);
+  --brand-subtle-text: #c7d2fe;
+  --brand-subtle-border: rgba(99, 102, 241, 0.4);
+  --brand-page-bg: #090a16;
+  --brand-canvas-mesh: radial-gradient(at 5% 5%, rgba(99, 102, 241, 0.2) 0px, transparent 55%),
+                       radial-gradient(at 95% 15%, rgba(168, 85, 247, 0.15) 0px, transparent 55%),
+                       radial-gradient(at 50% 95%, rgba(79, 70, 229, 0.14) 0px, transparent 60%);
 }
 
 .dark[data-theme="crimson"] {
-  --brand-subtle-bg: rgba(136, 19, 55, 0.35);
-  --brand-subtle-text: #fda4af;
-  --brand-subtle-border: rgba(225, 29, 72, 0.4);
-  --brand-page-bg: #1a0f13;
-  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(244, 63, 94, 0.12) 0px, transparent 50%),
-                       radial-gradient(at 90% 90%, rgba(225, 29, 72, 0.1) 0px, transparent 50%);
+  --brand-subtle-bg: rgba(136, 19, 55, 0.4);
+  --brand-subtle-text: #fecdd3;
+  --brand-subtle-border: rgba(244, 63, 94, 0.4);
+  --brand-page-bg: #0f070b;
+  --brand-canvas-mesh: radial-gradient(at 5% 5%, rgba(244, 63, 94, 0.18) 0px, transparent 55%),
+                       radial-gradient(at 95% 15%, rgba(219, 39, 119, 0.14) 0px, transparent 55%),
+                       radial-gradient(at 50% 95%, rgba(225, 29, 72, 0.12) 0px, transparent 60%);
 }
 
 .dark[data-theme="midnight"] {
-  --brand-subtle-bg: rgba(8, 47, 73, 0.45);
-  --brand-subtle-text: #7dd3fc;
-  --brand-subtle-border: rgba(14, 116, 144, 0.45);
-  --brand-page-bg: #0b1320;
-  --brand-canvas-mesh: radial-gradient(at 10% 10%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
-                       radial-gradient(at 90% 90%, rgba(2, 132, 199, 0.12) 0px, transparent 50%);
+  --brand-subtle-bg: rgba(8, 47, 73, 0.5);
+  --brand-subtle-text: #bae6fd;
+  --brand-subtle-border: rgba(56, 189, 248, 0.4);
+  --brand-page-bg: #060b13;
+  --brand-canvas-mesh: radial-gradient(at 5% 5%, rgba(56, 189, 248, 0.2) 0px, transparent 55%),
+                       radial-gradient(at 95% 15%, rgba(6, 182, 212, 0.15) 0px, transparent 55%),
+                       radial-gradient(at 50% 95%, rgba(2, 132, 199, 0.14) 0px, transparent 60%);
 }
 
 /* Global Smooth Transitions for Theme Morphing */
@@ -213,3 +227,253 @@ html, body {
   background-color: var(--brand-page-bg);
   background-image: var(--brand-canvas-mesh);
 }
+
+/* Fluid easing & Micro-interactions from CAFETARI Design System */
+.fluid-ease {
+  transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.spring-bouncy {
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.magnetic-hover {
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.magnetic-hover:hover {
+  transform: scale(1.05) translateY(-2px);
+}
+
+/* 3D Tilt Card Effect */
+.tilt-card {
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+}
+
+.tilt-card:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(3deg) translateY(-4px);
+  z-index: 10;
+}
+
+/* Energy Flow Animated Progress Bar */
+.progress-bar-energy {
+  background: linear-gradient(90deg, #059669, #ecfdf5, #059669);
+  background-size: 200% 100%;
+  animation: energyFlow 2s linear infinite;
+}
+
+.dark .progress-bar-energy {
+  background: linear-gradient(90deg, #34d399, #064e3b, #34d399);
+  background-size: 200% 100%;
+  animation: energyFlow 2s linear infinite;
+}
+
+@keyframes energyFlow {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* Hover Reveal Bento Cards */
+.hover-reveal-card .reveal-content {
+  opacity: 0.9;
+  transform: translateY(4px);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hover-reveal-card:hover .reveal-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Floating Ambient Particles */
+.particle {
+  position: absolute;
+  background: var(--brand-primary);
+  border-radius: 50%;
+  opacity: 0.08;
+  animation: floatParticle linear infinite;
+  pointer-events: none;
+}
+
+.dark .particle {
+  background: #f8fafc;
+  opacity: 0.05;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+  }
+}
+
+/* Animated Bar & Counter */
+.bar-animate {
+  transform-origin: bottom;
+  animation: growBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform: scaleY(0);
+}
+
+@keyframes growBounce {
+  0% {
+    transform: scaleY(0);
+  }
+  70% {
+    transform: scaleY(1.06);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.counter-animate {
+  animation: countUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse Vibrant */
+.pulse-vibrant {
+  animation: pulseVibrant 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseVibrant {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+/* ============================================================
+   UI ARCHETYPE STYLES & TYPOGRAPHY ENGINES
+   ============================================================ */
+
+/* 1. Neo-Bento Editorial & Hospitality */
+[data-archetype="neo-bento"] {
+  --archetype-font-heading: 'Playfair Display', Georgia, serif;
+  --archetype-font-body: 'Plus Jakarta Sans', sans-serif;
+  --archetype-card-radius: 1.5rem;
+}
+
+[data-archetype="neo-bento"] .archetype-heading {
+  font-family: var(--archetype-font-heading);
+  letter-spacing: -0.02em;
+}
+
+[data-archetype="neo-bento"] .archetype-card {
+  border-radius: var(--archetype-card-radius);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark[data-archetype="neo-bento"] .archetype-card {
+  background: linear-gradient(145deg, rgba(26, 32, 48, 0.85) 0%, rgba(15, 20, 32, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+}
+
+/* 2. Cyber KDS & Tactical HUD */
+[data-archetype="cyber-kds"] {
+  --archetype-font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --archetype-font-body: 'Plus Jakarta Sans', sans-serif;
+  --archetype-card-radius: 1.25rem;
+}
+
+[data-archetype="cyber-kds"] .archetype-heading {
+  font-family: var(--archetype-font-heading);
+  letter-spacing: -0.025em;
+}
+
+[data-archetype="cyber-kds"] .archetype-card {
+  border-radius: var(--archetype-card-radius);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark[data-archetype="cyber-kds"] .archetype-card {
+  background: linear-gradient(145deg, rgba(16, 24, 39, 0.92) 0%, rgba(10, 15, 26, 0.98) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px -3px rgba(16, 185, 129, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+/* 3. Warm Artisan Bistro */
+[data-archetype="warm-artisan"] {
+  --archetype-font-heading: 'Instrument Serif', 'Playfair Display', serif;
+  --archetype-font-body: 'Plus Jakarta Sans', sans-serif;
+  --archetype-card-radius: 1.75rem;
+}
+
+[data-archetype="warm-artisan"] .archetype-heading {
+  font-family: var(--archetype-font-heading);
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+
+[data-archetype="warm-artisan"] .archetype-card {
+  border-radius: var(--archetype-card-radius);
+  background: #FFFDF9;
+  border: 1px solid rgba(180, 83, 9, 0.15);
+  box-shadow: 0 6px 20px -3px rgba(120, 53, 15, 0.06);
+}
+
+.dark[data-archetype="warm-artisan"] .archetype-card {
+  background: linear-gradient(145deg, rgba(34, 25, 20, 0.92) 0%, rgba(20, 14, 11, 0.98) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+/* 4. Swiss Minimalist Precision */
+[data-archetype="swiss-minimal"] {
+  --archetype-font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --archetype-font-body: 'Plus Jakarta Sans', sans-serif;
+  --archetype-card-radius: 0.75rem;
+}
+
+[data-archetype="swiss-minimal"] .archetype-heading {
+  font-family: var(--archetype-font-heading);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+}
+
+[data-archetype="swiss-minimal"] .archetype-card {
+  border-radius: var(--archetype-card-radius);
+  background: #FFFFFF;
+  border: 2px solid #0F172A;
+  box-shadow: 4px 4px 0px #0F172A;
+}
+
+.dark[data-archetype="swiss-minimal"] .archetype-card {
+  background: linear-gradient(145deg, #181d28 0%, #0f1420 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
+}
+
+

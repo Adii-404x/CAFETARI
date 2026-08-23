@@ -851,6 +851,13 @@ class Database {
     return this.data.users[idx];
   }
 
+  updateWalletBalance(id: string, delta: number) {
+    const user = this.getUserById(id);
+    if (!user) return null;
+    const newBal = (user.walletBalance || 0) + delta;
+    return this.updateUser(id, { walletBalance: newBal });
+  }
+
   // Food Items CRUD
   getFoodItems() {
     return this.data.foodItems;

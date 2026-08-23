@@ -7,6 +7,9 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { CartDrawer } from './components/CartDrawer';
 import { LiveNotificationToast } from './components/LiveNotificationToast';
+import { FloatingUiSwitcher, UiDesignStudio } from './components/UiDesignStudio';
+import { OrganicFluidShaderCanvas } from './components/OrganicFluidShaderCanvas';
+import { FloatingParticles } from './components/FloatingParticles';
 import { getDynamicDocumentTitle } from './utils/dynamicTitles';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -28,6 +31,7 @@ function MainApp() {
   const { queueStatus, activeOrder } = useQueue();
   const [currentView, setCurrentView] = useState<string>('landing');
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+  const [isUiStudioOpen, setIsUiStudioOpen] = useState(false);
 
   useEffect(() => {
     const title = getDynamicDocumentTitle({
@@ -50,12 +54,16 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen theme-canvas text-slate-900 dark:text-slate-100 flex flex-col justify-between selection:bg-brand-primary selection:text-white font-sans antialiased transition-colors duration-300">
+    <div className="min-h-screen theme-canvas text-slate-900 dark:text-slate-100 flex flex-col justify-between selection:bg-brand-primary selection:text-white font-sans antialiased transition-colors duration-300 relative overflow-x-clip">
+      {/* Ambient Shader Canvas & Floating Particles */}
+      <OrganicFluidShaderCanvas opacity={0.16} />
+      <FloatingParticles />
+
       {/* Top Navbar */}
       <Navbar currentView={currentView} setCurrentView={setCurrentView} />
 
       {/* Main Animated Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <main className="flex-1 max-w-[1560px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-4 sm:py-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView}
@@ -144,6 +152,15 @@ function MainApp() {
           if (orderId) setSelectedOrderId(orderId);
           setCurrentView('order_tracking');
         }}
+      />
+
+      {/* Persistent Floating UI Archetype Switcher */}
+      <FloatingUiSwitcher onOpenStudio={() => setIsUiStudioOpen(true)} />
+
+      {/* Global UI Design Studio Modal */}
+      <UiDesignStudio
+        isOpen={isUiStudioOpen}
+        onClose={() => setIsUiStudioOpen(false)}
       />
 
       {/* Footer */}

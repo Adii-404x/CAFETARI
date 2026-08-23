@@ -30,7 +30,16 @@
       "department": "Computer Science & Engineering",
       "phone": "9876543210",
       "createdAt": "2026-08-21T16:22:13.026Z",
-      "updatedAt": "2026-08-21T16:22:13.026Z"
+      "updatedAt": "2026-08-23T08:30:41.871Z",
+      "walletBalance": 700,
+      "preferences": {
+        "dietaryPreference": "all",
+        "notificationsEnabled": true,
+        "smsAlerts": true,
+        "soundAlerts": true,
+        "defaultPaymentMethod": "CAMPUS_CARD",
+        "hostelOrBlock": "Hostel Block B - Room 304"
+      }
     },
     {
       "id": "usr_student_2",
@@ -2224,6 +2233,77 @@
       "acceptedAt": "2026-08-21T16:30:23.073Z",
       "readyAt": "2026-08-21T16:30:23.085Z",
       "completedAt": "2026-08-21T16:30:23.091Z"
+    },
+    {
+      "userId": "usr_student_1",
+      "userEmail": "student@cafeteria.edu",
+      "items": [
+        {
+          "foodItemId": "food_burger_1",
+          "name": "Crispy Veg Aloo Tikki Burger",
+          "price": 60,
+          "quantity": 2,
+          "notes": "Extra crispy"
+        }
+      ],
+      "totalAmount": 120,
+      "paymentMethod": "WALLET",
+      "status": "COMPLETED",
+      "updatedAt": "2026-08-23T08:28:42.737Z",
+      "readyAt": "2026-08-23T08:28:42.735Z",
+      "completedAt": "2026-08-23T08:28:42.737Z"
+    },
+    {
+      "id": "ord_test_1787473796465",
+      "userId": "usr_student_1",
+      "userEmail": "student@cafeteria.edu",
+      "studentName": "Aditya Singh",
+      "studentEmail": "student@cafeteria.edu",
+      "items": [
+        {
+          "foodItemId": "food_burger_1",
+          "name": "Crispy Veg Aloo Tikki Burger",
+          "price": 60,
+          "quantity": 2,
+          "notes": "Extra crispy"
+        }
+      ],
+      "totalAmount": 120,
+      "status": "COMPLETED",
+      "tokenNumber": 151,
+      "paymentMethod": "WALLET",
+      "paymentStatus": "PAID",
+      "estimatedWaitTimeMinutes": 8,
+      "placedAt": "2026-08-23T08:29:56.465Z",
+      "updatedAt": "2026-08-23T08:29:56.480Z",
+      "readyAt": "2026-08-23T08:29:56.478Z",
+      "completedAt": "2026-08-23T08:29:56.480Z"
+    },
+    {
+      "id": "ord_test_1787473841109",
+      "orderNumber": "ORD-152",
+      "tokenNumber": 152,
+      "userId": "usr_student_1",
+      "studentName": "Aditya Singh",
+      "studentEmail": "student@cafeteria.edu",
+      "items": [
+        {
+          "foodItemId": "food_burger_1",
+          "name": "Crispy Veg Aloo Tikki Burger",
+          "price": 60,
+          "quantity": 2
+        }
+      ],
+      "totalAmount": 120,
+      "status": "COMPLETED",
+      "paymentMethod": "CAMPUS_CARD",
+      "paymentStatus": "PAID",
+      "estimatedPreparationTime": 8,
+      "placedAt": "2026-08-23T08:30:41.109Z",
+      "createdAt": "2026-08-23T08:30:41.109Z",
+      "updatedAt": "2026-08-23T08:30:41.124Z",
+      "readyAt": "2026-08-23T08:30:41.123Z",
+      "completedAt": "2026-08-23T08:30:41.124Z"
     }
   ],
   "feedbacks": [
@@ -2305,6 +2385,6 @@
     "cafeteriaName": "INDIYA Cafeteria (Floor 4th)",
     "operatingHours": "08:00 AM - 09:00 PM",
     "rushHourMultiplier": 1.2,
-    "tokenCounter": 150
+    "tokenCounter": 153
   }
 }

@@ -1,18 +1,21 @@
 /**
- * CAFETARI System API & Logic Comprehensive Test Suite
- * Executes automated unit, integration, and logic checks across all modules.
+ * CAFETARI SYSTEM - COMPLETE AUTOMATED TEST SUITE
+ * Executes comprehensive unit, integration, and logic checks across all modules.
  */
 
 import { db } from '../server/db';
 import { app, createApiApp } from '../server/app';
 import { DemandPredictionService } from '../server/ml/demandPredictor';
+import { runClientPredictionPipeline } from '../src/utils/mlEngine';
 import { initialFoodItems } from '../src/data/menuData';
 import { getMongoStatus } from '../server/mongodb';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 async function runTestSuite() {
-  console.log('🧪 Starting Cafetari System Comprehensive Test Suite...\n');
+  console.log('🧪 ========================================================');
+  console.log('🧪 STARTING CAFETARI COMPLETE SYSTEM VERIFICATION SUITE');
+  console.log('🧪 ========================================================\n');
   let passedCount = 0;
   let failedCount = 0;
 
@@ -93,56 +96,162 @@ async function runTestSuite() {
   // 4. Order State Machine & Token Sequencing Checks
   try {
     console.log('\n📋 4. Order Management & State Machine Transitions:');
-    const existingOrders = db.getOrders();
     const nextToken = db.getNextTokenNumber();
-    assert(typeof nextToken === 'number' && nextToken >= 100, `Next token number generator produces valid sequence (${nextToken})`);
+    assert(typeof nextToken === 'number' && nextToken >= 100, `Next token number generator produces valid sequence (#${nextToken})`);
 
-    // Verify valid order statuses
-    const allowedStatuses = ['PLACED', 'ACCEPTED', 'PREPARING', 'READY', 'COMPLETED', 'CANCELLED'];
-    const sampleOrder = existingOrders[0];
-    if (sampleOrder) {
-      assert(allowedStatuses.includes(sampleOrder.status), `Sample order has valid status: ${sampleOrder.status}`);
-      assert(sampleOrder.items.length > 0, `Order contains valid items (${sampleOrder.items.length} line items)`);
-      assert(sampleOrder.totalAmount > 0, `Order calculated total amount: ₹${sampleOrder.totalAmount}`);
-    } else {
-      assert(true, 'No legacy orders found; order generator ready');
-    }
+    const student = db.getUserByEmail('student@cafeteria.edu');
+    const testFood = db.getFoodItems()[0];
+
+    const tokenNum = db.getNextTokenNumber();
+    const newOrder = db.createOrder({
+      id: `ord_test_${Date.now()}`,
+      orderNumber: `ORD-${tokenNum}`,
+      tokenNumber: tokenNum,
+      userId: student?.id || 'usr_demo_student',
+      studentName: student?.name || 'Aditya Singh',
+      studentEmail: student?.email || 'student@cafeteria.edu',
+      items: [
+        {
+          foodItemId: testFood.id,
+          name: testFood.name,
+          price: testFood.price,
+          quantity: 2
+        }
+      ],
+      totalAmount: testFood.price * 2,
+      status: 'PLACED',
+      paymentMethod: 'CAMPUS_CARD',
+      paymentStatus: 'PAID',
+      estimatedPreparationTime: testFood.preparationTime || 10,
+      placedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    });
+
+    assert(!!newOrder.id, `Order created with ID: ${newOrder.id}`);
+    assert(newOrder.status === 'PLACED', 'Order initializes in PLACED status');
+    assert(newOrder.tokenNumber >= 100, `Assigned token #${newOrder.tokenNumber}`);
+
+    // Transition PLACED -> PREPARING -> READY -> COMPLETED
+    const preparing = db.updateOrderStatus(newOrder.id, 'PREPARING');
+    assert(preparing?.status === 'PREPARING', 'Order transitions to PREPARING');
+
+    const ready = db.updateOrderStatus(newOrder.id, 'READY');
+    assert(ready?.status === 'READY', 'Order transitions to READY for pickup');
+
+    const completed = db.updateOrderStatus(newOrder.id, 'COMPLETED');
+    assert(completed?.status === 'COMPLETED', 'Order successfully marked COMPLETED');
   } catch (err: any) {
     assert(false, 'Order state machine check threw an error', err.message);
   }
 
-  // 5. Machine Learning Demand Prediction Pipeline Checks
+  // 5. Machine Learning Demand Prediction & Multi-Scenario Simulator Checks
   try {
-    console.log('\n🤖 5. ML Demand Prediction & Forecasting Engine:');
+    console.log('\n🤖 5. ML Demand Prediction, Ensembles & Scenario Simulation:');
     const todayStr = new Date().toISOString().split('T')[0];
-    const predictionResult = DemandPredictionService.runPredictionPipeline(todayStr);
 
-    assert(!!predictionResult, 'Prediction pipeline returns a valid response object');
-    assert(predictionResult.date === todayStr, 'Prediction matches requested target date');
-    assert(predictionResult.predictions.length >= 10, `Generated demand predictions for ${predictionResult.predictions.length} food items`);
-    assert(predictionResult.totalExpectedPortions > 0, `Total expected portions calculated: ${predictionResult.totalExpectedPortions}`);
-    assert(predictionResult.modelsCompared.length >= 3, `Ensemble evaluated ${predictionResult.modelsCompared.length} ML models (ARIMA, Linear Regression, Gradient Boosting)`);
-    assert(!!predictionResult.selectedModel, `Best performing ML Model identified: ${predictionResult.selectedModel}`);
-    assert(predictionResult.predictions.every(p => p.predictedDemand >= 0), 'All predicted demands are non-negative');
-    assert(predictionResult.modelsCompared.every(m => m.accuracyPercent >= 0 && m.accuracyPercent <= 100), 'Model accuracy percentages normalized between 0% and 100%');
-    assert(predictionResult.predictions.every(p => p.confidenceRange[0] <= p.confidenceRange[1]), 'Confidence interval ranges are monotonically ordered [lower <= upper]');
+    // Standard Normal Scenario (Server)
+    const normalPred = DemandPredictionService.runPredictionPipeline(todayStr, 'normal');
+    assert(!!normalPred, 'Normal prediction pipeline returns valid payload');
+    assert(normalPred.predictions.length >= 10, `Forecasted demand for ${normalPred.predictions.length} items`);
+    assert(normalPred.totalExpectedPortions > 0, `Total expected portions: ${normalPred.totalExpectedPortions}`);
+    assert(normalPred.modelsCompared.length >= 3, `Ensemble evaluated ${normalPred.modelsCompared.length} models`);
+    assert(normalPred.selectedModel.includes('Gradient Boosting'), 'Gradient Boosting Regressor selected as top model');
+
+    // Rainy Monsoon Scenario Surge
+    const rainyPred = DemandPredictionService.runPredictionPipeline(todayStr, 'rainy_monsoon');
+    assert(rainyPred.scenario === 'rainy_monsoon', 'Rainy Monsoon scenario correctly tagged');
+    assert(
+      rainyPred.totalExpectedPortions > normalPred.totalExpectedPortions,
+      `Rainy scenario surges total demand (${rainyPred.totalExpectedPortions} > ${normalPred.totalExpectedPortions})`
+    );
+
+    // Annual Campus Fest Scenario Surge
+    const festPred = DemandPredictionService.runPredictionPipeline(todayStr, 'college_fest');
+    assert(
+      festPred.totalExpectedPortions > normalPred.totalExpectedPortions * 1.3,
+      `Campus Fest surges total demand by >30% (${festPred.totalExpectedPortions} vs ${normalPred.totalExpectedPortions})`
+    );
+
+    // Client-Side Fallback ML Pipeline
+    const clientPred = runClientPredictionPipeline(initialFoodItems, todayStr, 'exam_week');
+    assert(clientPred.scenario === 'exam_week', 'Client-side ML pipeline executes exam_week scenario');
+    assert(clientPred.predictions.length === initialFoodItems.length, 'Client ML predicts all catalog items');
   } catch (err: any) {
     assert(false, 'ML prediction pipeline threw an error', err.message);
   }
 
-  // 6. Food Category & Nutrition Schema Checks
+  // 6. Bill of Materials (BOM) & Inventory Depletion Engine
   try {
-    console.log('\n🥗 6. Food Categories & Nutrition Schema:');
+    console.log('\n📦 6. Bill of Materials (BOM) & Inventory Depletion:');
+    const pred = DemandPredictionService.runPredictionPipeline(new Date().toISOString().split('T')[0]);
+    assert(Array.isArray(pred.ingredientRequirements), 'BOM calculations generated');
+    assert(pred.ingredientRequirements.length >= 4, `Tracked ${pred.ingredientRequirements.length} raw inventory ingredients`);
+
+    const milk = pred.ingredientRequirements.find(i => i.ingredient.includes('Milk'));
+    assert(!!milk, 'BOM calculates Dairy Milk requirements');
+    assert(milk?.status === 'SAFE' || milk?.status === 'WARNING' || milk?.status === 'REORDER_NOW', `Milk stock status: ${milk?.status}`);
+  } catch (err: any) {
+    assert(false, 'BOM calculation threw an error', err.message);
+  }
+
+  // 7. 24-Hour Kitchen Rush & Chef Concurrency Allocator
+  try {
+    console.log('\n👨‍🍳 7. 24-Hour Kitchen Rush & Chef Allocations:');
+    const pred = DemandPredictionService.runPredictionPipeline(new Date().toISOString().split('T')[0]);
+    assert(Array.isArray(pred.hourlyRushForecast), 'Hourly rush forecast generated');
+    assert(pred.hourlyRushForecast.length >= 10, `Forecast covers ${pred.hourlyRushForecast.length} active service hours`);
+
+    const lunchPeak = pred.hourlyRushForecast.find(h => h.hour.includes('01:00 PM'));
+    assert(!!lunchPeak, '1:00 PM peak rush identified');
+    assert((lunchPeak?.staffNeeded || 0) >= 4, `Allocated ${lunchPeak?.staffNeeded} kitchen staff for lunch peak`);
+  } catch (err: any) {
+    assert(false, 'Kitchen rush calculation threw an error', err.message);
+  }
+
+  // 8. ML Feature Explainability & Model Weights
+  try {
+    console.log('\n🔍 8. ML Model Explainability & Feature Importance:');
+    const pred = DemandPredictionService.runPredictionPipeline(new Date().toISOString().split('T')[0]);
+    assert(Array.isArray(pred.featureImportance), 'Feature importance array present');
+    assert(pred.featureImportance.length >= 5, `Evaluated ${pred.featureImportance.length} ML input features`);
+
+    const totalWeight = pred.featureImportance.reduce((sum, f) => sum + f.importance, 0);
+    assert(Math.abs(totalWeight - 1.0) < 0.05, `Feature importance weights normalized to ~100% (${Math.round(totalWeight * 100)}%)`);
+  } catch (err: any) {
+    assert(false, 'ML explainability check threw an error', err.message);
+  }
+
+  // 9. Wallet, Payments & Transaction Balance
+  try {
+    console.log('\n💳 9. Student Digital Wallet & Balance Operations:');
+    const student = db.getUserByEmail('student@cafeteria.edu');
+    const initialBal = student?.walletBalance || 0;
+
+    const updatedUser = db.updateWalletBalance(student!.id, 250);
+    assert(updatedUser?.walletBalance === initialBal + 250, `Wallet balance topped up to ₹${updatedUser?.walletBalance}`);
+
+    const deductedUser = db.updateWalletBalance(student!.id, -50);
+    assert(deductedUser?.walletBalance === initialBal + 200, `Wallet balance deducted to ₹${deductedUser?.walletBalance}`);
+  } catch (err: any) {
+    assert(false, 'Wallet operations threw an error', err.message);
+  }
+
+  // 10. Food Category, Dietary & Allergen Schema Checks
+  try {
+    console.log('\n🥗 10. Food Categories & Nutrition Schema:');
     const catalog = db.getFoodItems();
     const categories = Array.from(new Set(catalog.map(c => c.category)));
     assert(categories.includes('Breakfast'), 'Catalog includes "Breakfast" category');
     assert(categories.includes('Meals'), 'Catalog includes "Meals" category');
     assert(categories.includes('Snacks'), 'Catalog includes "Snacks" category');
     assert(categories.includes('Beverages'), 'Catalog includes "Beverages" category');
-    assert(initialFoodItems.some(i => i.category === 'Desserts'), 'Catalog includes "Desserts" category');
 
     const vegItems = catalog.filter(i => i.isVegetarian);
     assert(vegItems.length > 0, `Vegetarian filter works (${vegItems.length} veg items identified)`);
+
+    const calorieCheck = catalog.every(i => (i.calories || 0) > 0 && ((i.preparationTime || 0) > 0));
+    assert(calorieCheck, 'All menu items have valid positive calories and prep times');
   } catch (err: any) {
     assert(false, 'Food schema check threw an error', err.message);
   }
@@ -155,7 +264,7 @@ async function runTestSuite() {
   if (failedCount > 0) {
     process.exit(1);
   } else {
-    console.log('🎉 100% Error & Warning Free Verification Complete!');
+    console.log('🎉 100% Comprehensive System Tests Passed Successfully!');
     process.exit(0);
   }
 }

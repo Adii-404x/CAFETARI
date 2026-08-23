@@ -6,7 +6,8 @@ interface CafetariLogoProps {
   showSubtitle?: boolean;
   subtitleText?: string;
   iconOnly?: boolean;
-  variant?: 'purple' | 'white';
+  framed?: boolean;
+  variant?: 'gold' | 'purple' | 'white' | 'adaptive';
 }
 
 export const CafetariLogo: React.FC<CafetariLogoProps> = ({
@@ -15,111 +16,170 @@ export const CafetariLogo: React.FC<CafetariLogoProps> = ({
   showSubtitle = false,
   subtitleText = 'INDIYA • Floor 4th',
   iconOnly = false,
-  variant = 'purple'
+  framed = true,
+  variant = 'gold'
 }) => {
+  // Brand color definition from the new golden-caramel logo
+  const goldPrimary = '#CAA16A'; // Authentic golden caramel from official logo
+  const goldSecondary = '#B88F58';
+  const goldLight = '#DFBA85';
+
   const isWhite = variant === 'white';
-  const primaryColor = isWhite ? '#ffffff' : '#4a154b'; // Deep royal purple brand
-  const capColor = isWhite ? '#e9d5ff' : '#7c3aed'; // Vibrant violet graduation cap
-  const accentAColor = isWhite ? '#c084fc' : '#9333ea';
+  const isPurple = variant === 'purple';
+  
+  const strokeColor = isWhite ? '#ffffff' : isPurple ? '#7c3aed' : goldPrimary;
+  const textColor = isWhite ? '#ffffff' : isPurple ? '#4a154b' : goldPrimary;
+  const badgeBorderColor = isWhite ? 'rgba(255,255,255,0.7)' : isPurple ? 'rgba(124,58,237,0.5)' : goldPrimary;
 
-  // Responsive vs fixed size classes
-  const isResponsive = size === 'responsive';
+  // Sizing scale configurations
+  const scaleMap = {
+    xs: {
+      height: 28,
+      iconW: 24,
+      iconH: 18,
+      textSize: 'text-xs',
+      badgePadding: 'px-2 py-0.5',
+      rounded: 'rounded-xl',
+      borderW: 'border-[1.5px]'
+    },
+    sm: {
+      height: 34,
+      iconW: 30,
+      iconH: 22,
+      textSize: 'text-sm',
+      badgePadding: 'px-2.5 py-1',
+      rounded: 'rounded-2xl',
+      borderW: 'border-[2px]'
+    },
+    md: {
+      height: 44,
+      iconW: 38,
+      iconH: 28,
+      textSize: 'text-base sm:text-lg',
+      badgePadding: 'px-3.5 py-1.5',
+      rounded: 'rounded-2xl',
+      borderW: 'border-[2px]'
+    },
+    lg: {
+      height: 54,
+      iconW: 48,
+      iconH: 36,
+      textSize: 'text-xl sm:text-2xl',
+      badgePadding: 'px-4 py-2',
+      rounded: 'rounded-3xl',
+      borderW: 'border-[2.5px]'
+    },
+    xl: {
+      height: 70,
+      iconW: 62,
+      iconH: 46,
+      textSize: 'text-3xl sm:text-4xl',
+      badgePadding: 'px-6 py-3',
+      rounded: 'rounded-3xl',
+      borderW: 'border-[3px]'
+    },
+    responsive: {
+      height: 38,
+      iconW: 32,
+      iconH: 24,
+      textSize: 'text-sm sm:text-base md:text-lg',
+      badgePadding: 'px-2.5 sm:px-3.5 py-1 sm:py-1.5',
+      rounded: 'rounded-2xl sm:rounded-3xl',
+      borderW: 'border-[2px]'
+    }
+  }[size];
 
-  const iconClasses = isResponsive
-    ? 'w-7 h-5 sm:w-8 sm:h-6 md:w-9 md:h-7 shrink-0'
-    : {
-        xs: 'w-5 h-3.5 shrink-0',
-        sm: 'w-6 h-4.5 shrink-0',
-        md: 'w-8 h-6 shrink-0',
-        lg: 'w-10 h-7.5 shrink-0',
-        xl: 'w-14 h-10 shrink-0'
-      }[size];
+  // Precision Graduation Cap SVG based on official Cafetari mark
+  const GraduationCapSvg = (
+    <svg
+      viewBox="0 0 100 75"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ width: `${scaleMap.iconW}px`, height: `${scaleMap.iconH}px` }}
+      className="shrink-0 transition-transform duration-200 group-hover:scale-105"
+      aria-hidden="true"
+    >
+      {/* Mortarboard Diamond Top */}
+      <path
+        d="M50 12 L88 28 L50 44 L12 28 Z"
+        stroke={strokeColor}
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      
+      {/* Skull Cap Base Arc */}
+      <path
+        d="M26 36 V48 C26 58 74 58 74 48 V36"
+        stroke={strokeColor}
+        strokeWidth="5.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
 
-  const fontClasses = isResponsive
-    ? 'text-base sm:text-lg md:text-xl font-black tracking-wider leading-tight whitespace-nowrap'
-    : {
-        xs: 'text-xs font-black tracking-wider leading-tight whitespace-nowrap',
-        sm: 'text-sm font-black tracking-wider leading-tight whitespace-nowrap',
-        md: 'text-lg md:text-xl font-black tracking-wider leading-tight whitespace-nowrap',
-        lg: 'text-2xl font-black tracking-wider leading-tight whitespace-nowrap',
-        xl: 'text-3xl font-black tracking-wider leading-tight whitespace-nowrap'
-      }[size];
+      {/* Tassel Draped over Right Side */}
+      <path
+        d="M50 28 Q 78 30, 84 38 Q 88 44, 82 52 Q 86 60, 83 66"
+        stroke={strokeColor}
+        strokeWidth="4.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
 
-  const subtitleClasses = isResponsive
-    ? 'text-[9px] sm:text-[10px] tracking-wider uppercase font-bold whitespace-nowrap truncate'
-    : 'text-[10px] tracking-wider uppercase font-bold whitespace-nowrap truncate';
+      {/* Tassel End Drop Accent */}
+      <circle
+        cx="83"
+        cy="66"
+        r="3.5"
+        fill={strokeColor}
+      />
+    </svg>
+  );
 
   return (
-    <div className={`inline-flex items-center space-x-1.5 sm:space-x-2.5 select-none shrink-0 ${className}`}>
-      {/* Brand Graduation Cap Emblem */}
-      <svg
-        viewBox="0 0 80 60"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className={`${iconClasses} transition-transform duration-200 group-hover:scale-105`}
-        aria-label="CAFETARI Graduation Cap Logo"
+    <div className={`inline-flex flex-col select-none shrink-0 ${className}`}>
+      {/* Main Logo Container (Framed Pill Badge or Frameless) */}
+      <div
+        className={`inline-flex items-center space-x-2 sm:space-x-3 transition-all duration-200 ${
+          framed
+            ? `${scaleMap.badgePadding} ${scaleMap.rounded} ${scaleMap.borderW} bg-white/90 dark:bg-slate-900/90 shadow-xs hover:shadow-sm`
+            : ''
+        }`}
+        style={framed ? { borderColor: badgeBorderColor } : undefined}
       >
-        {/* Top diamond of mortarboard */}
-        <polygon
-          points="40,6 76,22 40,38 4,22"
-          fill={isWhite ? 'rgba(255,255,255,0.1)' : 'rgba(124,58,237,0.08)'}
-          stroke={capColor}
-          strokeWidth="6"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-        {/* Cap skull cap underlayer */}
-        <path
-          d="M18,29 V44 C18,44 26,52 40,52 C54,52 62,44 62,44 V29"
-          fill="none"
-          stroke={capColor}
-          strokeWidth="5.5"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-        {/* Tassel line & drop */}
-        <path
-          d="M74,23 L74,40 M71,40 H77 V46 H71 Z"
-          stroke={capColor}
-          strokeWidth="3.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill={capColor}
-        />
-      </svg>
+        {/* Graduation Cap Emblem */}
+        {GraduationCapSvg}
 
-      {/* Brand Wordmark: CAFETARI */}
-      {!iconOnly && (
-        <div className="flex flex-col justify-center min-w-0">
-          <div className="flex items-center leading-none">
-            <span
-              className={fontClasses}
-              style={{
-                color: primaryColor,
-                fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                letterSpacing: '0.06em'
-              }}
-            >
-              <span className="text-purple-950">CAFE</span>
-              <span style={{ color: accentAColor }}>T</span>
-              <span className="text-purple-900">ARI</span>
-            </span>
-          </div>
+        {/* Wordmark: Cafetari */}
+        {!iconOnly && (
+          <span
+            className={`${scaleMap.textSize} font-bold tracking-tight leading-none`}
+            style={{
+              color: textColor,
+              fontFamily: "'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif",
+              letterSpacing: '-0.01em'
+            }}
+          >
+            Cafetari
+          </span>
+        )}
+      </div>
 
-          {showSubtitle && (
-            <div className="flex items-center space-x-1 mt-0.5">
-              <span
-                className={`${subtitleClasses} ${
-                  isWhite ? 'text-purple-200' : 'text-purple-700/80'
-                }`}
-              >
-                {subtitleText}
-              </span>
-            </div>
-          )}
+      {/* Optional Subtitle */}
+      {showSubtitle && !iconOnly && (
+        <div className="flex items-center space-x-1 mt-1 px-1">
+          <span
+            className={`text-[9px] sm:text-[10px] tracking-wider uppercase font-extrabold whitespace-nowrap truncate ${
+              isWhite ? 'text-white/80' : 'text-slate-500 dark:text-slate-400'
+            }`}
+          >
+            {subtitleText}
+          </span>
         </div>
       )}
     </div>
   );
 };
-

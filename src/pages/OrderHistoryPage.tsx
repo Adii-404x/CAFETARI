@@ -11,8 +11,11 @@ import {
   Star,
   Search,
   ArrowRight,
-  Receipt
+  Receipt,
+  Sparkles,
+  Zap
 } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface OrderHistoryPageProps {
   onNavigate: (view: string) => void;
@@ -73,33 +76,33 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
   });
 
   return (
-    <div className="space-y-6 py-4">
-      {/* Header */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 text-slate-900 dark:text-slate-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-colors">
-        <div className="space-y-1">
-          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-brand-subtle border border-brand-subtle text-brand-primary text-[10px] font-bold uppercase tracking-wider">
+    <div className="space-y-6 py-2 sm:py-4">
+      {/* Header Banner */}
+      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 sm:p-8 text-slate-900 dark:text-slate-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-colors">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-brand-subtle border border-brand-subtle text-brand-primary text-[10px] font-black uppercase tracking-wider">
             <History className="w-3 h-3 text-brand-primary" />
-            <span>Past Campus Dining</span>
+            <span>Past Campus Dining • INDIYA Cafeteria</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {search.trim() ? `Order History • Search for "${search}" (${filteredOrders.length})` : `Your Order History (${orders.length} ${orders.length === 1 ? 'Receipt' : 'Receipts'})`}
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-            View receipts, live statuses, and re-order in 1 tap.
+            View receipts, live statuses, and re-order your favorite campus meals in 1 tap.
           </p>
         </div>
 
         <button
           onClick={() => onNavigate('menu')}
-          className="px-5 py-3 rounded-xl bg-brand-primary hover:bg-brand-hover text-white font-bold text-xs flex items-center space-x-2 shadow-xs transition-all cursor-pointer"
+          className="px-5 py-3 rounded-2xl bg-brand-primary hover:bg-brand-hover text-white font-black text-xs flex items-center space-x-2 shadow-brand transition-all cursor-pointer"
         >
           <Utensils className="w-4 h-4" />
           <span>New Order</span>
         </button>
       </div>
 
-      {/* Filter Bar */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row gap-3 items-center justify-between shadow-xs">
+      {/* Filter & Search Bar */}
+      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row gap-3 items-center justify-between shadow-xs">
         <div className="relative w-full sm:max-w-xs">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -107,19 +110,19 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search order #, token, or item..."
-            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand font-medium"
+            className="w-full bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand font-medium"
           />
         </div>
 
-        <div className="flex items-center space-x-2 w-full sm:w-auto">
+        <div className="flex items-center space-x-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
           {['ALL', 'PREPARING', 'READY', 'COMPLETED'].map(status => (
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer whitespace-nowrap ${
                 statusFilter === status
-                  ? 'bg-emerald-600 text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-brand-primary text-white shadow-brand'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
               {status}
@@ -132,16 +135,16 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map(n => (
-            <div key={n} className="bg-white border border-slate-200 rounded-2xl h-24 animate-pulse shadow-xs" />
+            <div key={n} className="bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-3xl h-28 animate-pulse shadow-xs" />
           ))}
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="text-center py-16 bg-white border border-slate-200 rounded-3xl p-8 space-y-3 shadow-xs">
-          <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+        <div className="text-center py-16 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-8 space-y-3 shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
             <History className="w-6 h-6" />
           </div>
-          <h3 className="text-sm font-bold text-slate-900">No orders found</h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white">No orders found</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
             You haven't placed any orders matching these filters yet.
           </p>
         </div>
@@ -151,37 +154,43 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
             const isOngoing = ['PLACED', 'ACCEPTED', 'PREPARING', 'READY'].includes(order.status);
 
             return (
-              <div
+              <motion.div
                 key={order.id}
-                className="bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-5 sm:p-6 transition-all text-slate-900 shadow-xs space-y-4"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/90 hover:border-brand-primary/60 dark:hover:border-brand-primary/60 rounded-3xl p-5 sm:p-6 transition-all text-slate-900 dark:text-slate-100 shadow-sm space-y-4 group"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
                   <div className="flex items-center space-x-3">
-                    <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-800 font-black text-sm flex items-center justify-center border border-emerald-200">
+                    <div className="w-12 h-12 rounded-2xl bg-brand-subtle text-brand-primary font-black text-sm flex items-center justify-center border border-brand-subtle shadow-xs shrink-0">
                       #{order.tokenNumber}
                     </div>
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-bold text-sm text-slate-900">Order #{order.orderNumber}</span>
-                        <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase ${
+                        <span className="font-black text-sm text-slate-900 dark:text-white">
+                          Order #{order.orderNumber}
+                        </span>
+                        <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
                           order.status === 'READY'
-                            ? 'bg-emerald-600 text-white animate-bounce shadow-xs'
+                            ? 'bg-emerald-500 text-white animate-pulse shadow-xs'
                             : order.status === 'COMPLETED'
-                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                            : 'bg-amber-50 text-amber-800 border border-amber-200'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                            : 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
                         }`}>
                           {order.status}
                         </span>
                       </div>
-                      <div className="text-[11px] text-slate-500">
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                         {new Date(order.placedAt).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })} at {new Date(order.placedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </div>
                   </div>
 
-                  <div className="text-right">
-                    <div className="text-base font-extrabold text-slate-900">₹{order.totalAmount}</div>
-                    <div className="text-[11px] text-slate-500 font-medium">{order.paymentMethod.replace('_', ' ')}</div>
+                  <div className="text-left sm:text-right">
+                    <div className="text-lg font-black text-brand-primary">₹{order.totalAmount}</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
+                      {order.paymentMethod.replace('_', ' ')}
+                    </div>
                   </div>
                 </div>
 
@@ -190,9 +199,9 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
                   {order.items.map(item => (
                     <div
                       key={item.foodItemId}
-                      className="px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-lg text-xs text-slate-700 flex items-center space-x-1.5"
+                      className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs text-slate-800 dark:text-slate-200 flex items-center space-x-2 font-medium"
                     >
-                      <span className="font-bold text-emerald-700">{item.quantity}x</span>
+                      <span className="font-black text-brand-primary">{item.quantity}x</span>
                       <span>{item.name}</span>
                     </div>
                   ))}
@@ -203,13 +212,14 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => handleReorder(order)}
-                      className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-800 border border-slate-200 text-xs font-bold text-slate-700 transition-colors cursor-pointer"
+                      className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-brand-subtle hover:text-brand-primary dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-black text-slate-800 dark:text-slate-200 transition-colors cursor-pointer flex items-center space-x-1.5"
                     >
-                      Reorder Tray ⚡
+                      <Zap className="w-3.5 h-3.5 text-amber-500 fill-current" />
+                      <span>Reorder Tray</span>
                     </button>
                     <button
                       onClick={() => setActiveFeedbackOrder(order)}
-                      className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 flex items-center space-x-1.5 transition-colors cursor-pointer"
+                      className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-black text-slate-800 dark:text-slate-200 flex items-center space-x-1.5 transition-colors cursor-pointer"
                     >
                       <Star className="w-3.5 h-3.5 text-amber-500" />
                       <span>Review</span>
@@ -219,7 +229,7 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
                   {isOngoing && (
                     <button
                       onClick={() => onTrackOrder(order.id)}
-                      className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center space-x-1.5 shadow-xs transition-colors cursor-pointer"
+                      className="px-4 py-2 rounded-xl bg-brand-primary hover:bg-brand-hover text-white font-black text-xs flex items-center space-x-1.5 shadow-brand transition-colors cursor-pointer"
                     >
                       <Clock className="w-3.5 h-3.5" />
                       <span>Open Live Tracker</span>
@@ -227,7 +237,7 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
                     </button>
                   )}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -240,7 +250,7 @@ export const OrderHistoryPage: React.FC<OrderHistoryPageProps> = ({ onNavigate, 
           orderNumber={activeFeedbackOrder.orderNumber}
           onClose={() => setActiveFeedbackOrder(null)}
           onSuccess={() => {
-            alert('Feedback submitted!');
+            // Feedback submitted
           }}
         />
       )}

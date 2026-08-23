@@ -931,9 +931,13 @@ export const analyticsApi = {
 
 // 6. Prediction API
 export const predictionApi = {
-  async getPredictions(date?: string) {
+  async getPredictions(date?: string, scenario: string = 'normal') {
     try {
-      const query = date ? `?date=${date}` : '';
+      const params = new URLSearchParams();
+      if (date) params.set('date', date);
+      if (scenario) params.set('scenario', scenario);
+      const query = params.toString() ? `?${params.toString()}` : '';
+
       const res = await fetch(`${API_BASE}/predictions${query}`, {
         headers: getAuthHeaders()
       });
@@ -943,19 +947,19 @@ export const predictionApi = {
       // Fallback
     }
 
-    const pred = runClientPredictionPipeline(initialFoodItems, date);
+    const pred = runClientPredictionPipeline(initialFoodItems, date, scenario);
     return {
       success: true,
       data: pred
     };
   },
 
-  async generateNewPredictions(targetDate?: string) {
+  async generateNewPredictions(targetDate?: string, scenario: string = 'normal') {
     try {
       const res = await fetch(`${API_BASE}/predictions/generate`, {
         method: 'POST',
         headers: getAuthHeaders(),
-        body: JSON.stringify({ targetDate })
+        body: JSON.stringify({ targetDate, scenario })
       });
       const data = await handleResponse<DemandPredictionResponse>(res);
       if (data.success && data.data) return data;
@@ -963,7 +967,7 @@ export const predictionApi = {
       // Fallback
     }
 
-    const pred = runClientPredictionPipeline(initialFoodItems, targetDate);
+    const pred = runClientPredictionPipeline(initialFoodItems, targetDate, scenario);
     return {
       success: true,
       data: pred

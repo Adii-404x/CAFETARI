@@ -207,7 +207,7 @@ export const OrderTrackingPage: React.FC<OrderTrackingPageProps> = ({ orderId, o
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="max-w-2xl mx-auto py-6 space-y-6 text-slate-900 dark:text-slate-100"
+      className="max-w-3xl mx-auto py-6 space-y-6 text-slate-900 dark:text-slate-100"
     >
       {/* Top Header & Actions Bar */}
       <div className="flex items-center justify-between gap-2">

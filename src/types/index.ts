@@ -117,9 +117,34 @@ export interface AiDemandInsights {
   rawMarkdown?: string;
 }
 
+export interface IngredientDepletionForecast {
+  ingredient: string;
+  totalRequired: string;
+  stockAvailable: string;
+  status: 'SAFE' | 'WARNING' | 'REORDER_NOW';
+  daysUntilStockout?: number;
+  unit: string;
+}
+
+export interface HourlyRushForecastItem {
+  hour: string;
+  rushLevel: 'Low' | 'Moderate' | 'High' | 'Severe Peak';
+  orderVelocity: number;
+  staffNeeded: number;
+  focus: string;
+}
+
+export interface FeatureImportanceItem {
+  feature: string;
+  importance: number;
+  description: string;
+}
+
 export interface DemandPredictionResponse {
   date: string;
   dayOfWeek: string;
+  scenario?: string;
+  weatherCondition?: string;
   modelVersion: string;
   selectedModel: string;
   modelsCompared: MLModelMetrics[];
@@ -129,6 +154,9 @@ export interface DemandPredictionResponse {
   factorsConsidered: string[];
   aiInsights?: AiDemandInsights | string;
   lastTrained: string;
+  ingredientRequirements?: IngredientDepletionForecast[];
+  hourlyRushForecast?: HourlyRushForecastItem[];
+  featureImportance?: FeatureImportanceItem[];
 }
 
 export interface AnalyticsDashboardData {

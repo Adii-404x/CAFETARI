@@ -320,27 +320,27 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
       {/* Global Alerts Banner */}
       {successMessage && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl p-4 flex items-center space-x-3 text-xs sm:text-sm shadow-2xs animate-in fade-in slide-in-from-top-1">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+        <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 rounded-2xl p-4 flex items-center space-x-3 text-xs sm:text-sm shadow-2xs animate-in fade-in slide-in-from-top-1">
+          <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
           <span className="font-medium">{successMessage}</span>
         </div>
       )}
 
       {errorMessage && (
-        <div className="bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl p-4 flex items-center space-x-3 text-xs sm:text-sm shadow-2xs animate-in fade-in slide-in-from-top-1">
-          <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+        <div className="bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 rounded-2xl p-4 flex items-center space-x-3 text-xs sm:text-sm shadow-2xs animate-in fade-in slide-in-from-top-1">
+          <AlertCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0" />
           <span className="font-medium">{errorMessage}</span>
         </div>
       )}
 
       {/* Horizontal Tab Navigation */}
-      <div className="flex border-b border-slate-200 overflow-x-auto no-scrollbar space-x-1 sm:space-x-2">
+      <div className="flex border-b border-slate-200 dark:border-slate-800 overflow-x-auto no-scrollbar space-x-1 sm:space-x-2">
         <button
           onClick={() => setActiveTab('overview')}
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'overview'
               ? 'border-brand-primary text-brand-primary'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           <BadgeCheck className="w-4 h-4" />
@@ -352,7 +352,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'personal'
               ? 'border-brand-primary text-brand-primary'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           <UserIcon className="w-4 h-4" />
@@ -364,11 +364,11 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'preferences'
               ? 'border-brand-primary text-brand-primary'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           <Heart className="w-4 h-4" />
-          <span>Dietary & Ambiance</span>
+          <span>Dietary & Palette</span>
         </button>
 
         <button
@@ -376,7 +376,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'wallet'
               ? 'border-brand-primary text-brand-primary'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           <Wallet className="w-4 h-4" />
@@ -388,7 +388,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           className={`pb-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center space-x-2 cursor-pointer ${
             activeTab === 'security'
               ? 'border-brand-primary text-brand-primary'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
           <Shield className="w-4 h-4" />
@@ -400,7 +400,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
       {activeTab === 'overview' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Digital Student Cafeteria Card (Clean Minimalism Aesthetic) */}
+            {/* Digital Student Cafeteria Card */}
             <div className="lg:col-span-2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-md relative overflow-hidden flex flex-col justify-between border border-slate-800">
               {/* Background watermark badge */}
               <div className="absolute -right-8 -bottom-10 opacity-5 pointer-events-none">
@@ -469,36 +469,36 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
             {/* Quick Stats & Wallet Widget */}
             <div className="space-y-4">
               {/* Wallet Summary Card */}
-              <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-xs space-y-4">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-xs space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2 text-slate-900 font-bold text-sm">
-                    <Wallet className="w-4 h-4 text-emerald-600" />
+                  <div className="flex items-center space-x-2 text-slate-900 dark:text-white font-bold text-sm">
+                    <Wallet className="w-4 h-4 text-brand-primary" />
                     <span>Campus Balance</span>
                   </div>
                   <button
                     onClick={() => setActiveTab('wallet')}
-                    className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 cursor-pointer"
+                    className="text-xs font-semibold text-brand-primary hover:text-brand-hover cursor-pointer"
                   >
                     Top Up →
                   </button>
                 </div>
 
                 <div>
-                  <div className="text-3xl font-extrabold text-slate-900 font-mono">
+                  <div className="text-3xl font-extrabold text-slate-900 dark:text-white font-mono">
                     ₹{currentWalletBalance.toFixed(2)}
                   </div>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                     Fast 1-click contactless checkout at Floor 4th counters
                   </p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-100">
+                <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                   <button
                     onClick={() => {
                       setSelectedTopUp(100);
                       setActiveTab('wallet');
                     }}
-                    className="py-1.5 px-2 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-colors text-center cursor-pointer"
+                    className="py-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-brand-subtle hover:text-brand-primary border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center cursor-pointer"
                   >
                     +₹100
                   </button>
@@ -507,7 +507,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                       setSelectedTopUp(200);
                       setActiveTab('wallet');
                     }}
-                    className="py-1.5 px-2 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-colors text-center cursor-pointer"
+                    className="py-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-brand-subtle hover:text-brand-primary border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center cursor-pointer"
                   >
                     +₹200
                   </button>
@@ -516,7 +516,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                       setSelectedTopUp(500);
                       setActiveTab('wallet');
                     }}
-                    className="py-1.5 px-2 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-colors text-center cursor-pointer"
+                    className="py-1.5 px-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-brand-subtle hover:text-brand-primary border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors text-center cursor-pointer"
                   >
                     +₹500
                   </button>
@@ -524,25 +524,25 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
               </div>
 
               {/* Activity Summary Metrics */}
-              <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-xs space-y-3">
-                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-xs space-y-3">
+                <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                   Cafeteria Activity
                 </h4>
 
                 <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                    <span className="text-slate-500 block text-[11px]">Total Orders</span>
-                    <span className="text-lg font-bold text-slate-900">{orders.length}</span>
+                  <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+                    <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Total Orders</span>
+                    <span className="text-lg font-bold text-slate-900 dark:text-white">{orders.length}</span>
                   </div>
-                  <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                    <span className="text-slate-500 block text-[11px]">Completed</span>
-                    <span className="text-lg font-bold text-emerald-700">{completedOrders}</span>
+                  <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+                    <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Completed</span>
+                    <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{completedOrders}</span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => onNavigate('order_history')}
-                  className="w-full py-2 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer"
+                  className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer"
                 >
                   <span>View All Past Receipts</span>
                   <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
@@ -555,39 +555,39 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             <div
               onClick={() => setActiveTab('personal')}
-              className="bg-white border border-slate-200 rounded-2xl p-4.5 hover:border-emerald-300 hover:shadow-xs transition-all cursor-pointer group"
+              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4.5 hover:border-brand-primary/60 dark:hover:border-brand-primary/60 hover:shadow-xs transition-all cursor-pointer group"
             >
-              <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+              <div className="w-9 h-9 rounded-xl bg-brand-subtle text-brand-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <UserIcon className="w-4.5 h-4.5" />
               </div>
-              <h4 className="font-bold text-xs text-slate-900">Personal Info</h4>
-              <p className="text-[11px] text-slate-500 mt-0.5">
+              <h4 className="font-bold text-xs text-slate-900 dark:text-white">Personal Info</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                 Update name, department, registration ID & phone
               </p>
             </div>
 
             <div
               onClick={() => setActiveTab('preferences')}
-              className="bg-white border border-slate-200 rounded-2xl p-4.5 hover:border-emerald-300 hover:shadow-xs transition-all cursor-pointer group"
+              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4.5 hover:border-brand-primary/60 dark:hover:border-brand-primary/60 hover:shadow-xs transition-all cursor-pointer group"
             >
-              <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+              <div className="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <Heart className="w-4.5 h-4.5" />
               </div>
-              <h4 className="font-bold text-xs text-slate-900">Dietary Preferences</h4>
-              <p className="text-[11px] text-slate-500 mt-0.5">
-                Veg, Jain, Vegan filters & instant counter alerts
+              <h4 className="font-bold text-xs text-slate-900 dark:text-white">Dietary & Palette</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                Veg/Jain filters, Campus themes, and alert channels
               </p>
             </div>
 
             <div
               onClick={() => setActiveTab('security')}
-              className="bg-white border border-slate-200 rounded-2xl p-4.5 hover:border-emerald-300 hover:shadow-xs transition-all cursor-pointer group"
+              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4.5 hover:border-brand-primary/60 dark:hover:border-brand-primary/60 hover:shadow-xs transition-all cursor-pointer group"
             >
-              <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+              <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <Key className="w-4.5 h-4.5" />
               </div>
-              <h4 className="font-bold text-xs text-slate-900">Password & Security</h4>
-              <p className="text-[11px] text-slate-500 mt-0.5">
+              <h4 className="font-bold text-xs text-slate-900 dark:text-white">Password & Security</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                 Change account password and view login state
               </p>
             </div>
@@ -597,10 +597,10 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
       {/* TAB 2: PERSONAL INFORMATION */}
       {activeTab === 'personal' && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs max-w-3xl space-y-6">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs max-w-3xl space-y-6">
           <div>
-            <h3 className="text-lg font-bold text-slate-900">Personal Information</h3>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Personal Information</h3>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
               Keep your official university and cafeteria contact details up to date.
             </p>
           </div>
@@ -609,7 +609,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Full Name */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-slate-700">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Full Name <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
@@ -618,7 +618,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                     placeholder="Aditya Singh"
                   />
                   <UserIcon className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -627,7 +627,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
               {/* Email (Read only) */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-slate-700">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   University Email Address
                 </label>
                 <div className="relative">
@@ -635,7 +635,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     type="email"
                     value={user.email}
                     disabled
-                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-100 border border-slate-200 text-slate-500 rounded-xl cursor-not-allowed"
+                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl cursor-not-allowed"
                   />
                   <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
                 </div>
@@ -643,7 +643,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
               {/* Student ID */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-slate-700">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Student Registration / Roll No.
                 </label>
                 <div className="relative">
@@ -651,7 +651,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     type="text"
                     value={studentId}
                     onChange={(e) => setStudentId(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                     placeholder="STU-2024-8912"
                   />
                   <BookOpen className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -660,7 +660,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
               {/* Phone Number */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-slate-700">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Contact Phone (For Token SMS)
                 </label>
                 <div className="relative">
@@ -668,7 +668,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                     placeholder="9876543210"
                   />
                   <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -677,7 +677,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
               {/* Department */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-slate-700">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Department / Branch
                 </label>
                 <div className="relative">
@@ -685,7 +685,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     type="text"
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                     placeholder="Computer Science & Engineering"
                   />
                   <Building2 className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -694,7 +694,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
               {/* Hostel / Campus Block */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-slate-700">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Hostel Block / Residence
                 </label>
                 <div className="relative">
@@ -702,7 +702,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     type="text"
                     value={hostelOrBlock}
                     onChange={(e) => setHostelOrBlock(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                     placeholder="Hostel Block B - Room 304"
                   />
                   <Building2 className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -710,11 +710,11 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
               </div>
             </div>
 
-            <div className="flex items-center justify-end pt-4 border-t border-slate-100">
+            <div className="flex items-center justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="submit"
                 disabled={saving}
-                className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold shadow-xs transition-colors flex items-center space-x-2 cursor-pointer disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-hover text-white text-xs sm:text-sm font-semibold shadow-brand transition-colors flex items-center space-x-2 cursor-pointer disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -735,10 +735,10 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
       {/* TAB 3: DIETARY PREFERENCES & ALERTS */}
       {activeTab === 'preferences' && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs max-w-3xl space-y-6">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs max-w-3xl space-y-6">
           <div>
-            <h3 className="text-lg font-bold text-slate-900">Dietary & Notification Preferences</h3>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Dietary & Notification Preferences</h3>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
               Personalize cafeteria recommendations, food tag filters, and live token order alerts.
             </p>
           </div>
@@ -746,7 +746,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           <div className="space-y-6">
             {/* Dietary Preference Selector */}
             <div className="space-y-2">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                 Dietary Preference Filter
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -762,12 +762,12 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     onClick={() => setDietaryPreference(item.id as any)}
                     className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
                       dietaryPreference === item.id
-                        ? 'border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-500/20'
-                        : 'border-slate-200 bg-slate-50 hover:bg-slate-100/80'
+                        ? 'border-brand-primary bg-brand-subtle ring-2 ring-brand'
+                        : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700/80'
                     }`}
                   >
-                    <div className="font-bold text-xs text-slate-900">{item.label}</div>
-                    <div className="text-[10px] text-slate-500 mt-0.5">{item.desc}</div>
+                    <div className="font-bold text-xs text-slate-900 dark:text-white">{item.label}</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</div>
                   </button>
                 ))}
               </div>
@@ -775,7 +775,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
             {/* Default Payment Preference */}
             <div className="space-y-2">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                 Default Checkout Method
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -789,89 +789,89 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     onClick={() => setDefaultPaymentMethod(m.id as any)}
                     className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
                       defaultPaymentMethod === m.id
-                        ? 'border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-500/20'
-                        : 'border-slate-200 bg-slate-50 hover:bg-slate-100/80'
+                        ? 'border-brand-primary bg-brand-subtle ring-2 ring-brand'
+                        : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700/80'
                     }`}
                   >
-                    <div className="font-bold text-xs text-slate-900">{m.label}</div>
-                    <div className="text-[10px] text-slate-500 mt-0.5">{m.desc}</div>
+                    <div className="font-bold text-xs text-slate-900 dark:text-white">{m.label}</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{m.desc}</div>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Live Notifications Settings */}
-            <div className="space-y-3 pt-4 border-t border-slate-100">
-              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                 Live Alert & Token Channels
               </h4>
 
               <div className="space-y-2.5">
-                <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                   <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-xl bg-brand-subtle text-brand-primary flex items-center justify-center">
                       <Bell className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-slate-900">Push Notifications</div>
-                      <div className="text-[11px] text-slate-500">Live order status toast when tokens advance</div>
+                      <div className="text-xs font-bold text-slate-900 dark:text-white">Push Notifications</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Live order status toast when tokens advance</div>
                     </div>
                   </div>
                   <input
                     type="checkbox"
                     checked={notificationsEnabled}
                     onChange={(e) => setNotificationsEnabled(e.target.checked)}
-                    className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
+                    className="w-4 h-4 accent-brand-primary rounded cursor-pointer"
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                   <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                       <MessageSquare className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-slate-900">SMS Ready Alerts</div>
-                      <div className="text-[11px] text-slate-500">Receive text message when your token is ready at counter</div>
+                      <div className="text-xs font-bold text-slate-900 dark:text-white">SMS Ready Alerts</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Receive text message when your token is ready at counter</div>
                     </div>
                   </div>
                   <input
                     type="checkbox"
                     checked={smsAlerts}
                     onChange={(e) => setSmsAlerts(e.target.checked)}
-                    className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
+                    className="w-4 h-4 accent-brand-primary rounded cursor-pointer"
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                   <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                       <Volume2 className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-slate-900">Sound & Counter Chimes</div>
-                      <div className="text-[11px] text-slate-500">Audio chime when token is announced on screen</div>
+                      <div className="text-xs font-bold text-slate-900 dark:text-white">Sound & Counter Chimes</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Audio chime when token is announced on screen</div>
                     </div>
                   </div>
                   <input
                     type="checkbox"
                     checked={soundAlerts}
                     onChange={(e) => setSoundAlerts(e.target.checked)}
-                    className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
+                    className="w-4 h-4 accent-brand-primary rounded cursor-pointer"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Campus Theme & Appearance Chooser */}
-            <div className="space-y-3 pt-4 border-t border-slate-100">
+            {/* Campus Color Palette & Theme Chooser */}
+            <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
-                    <Palette className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Campus Theme & Ambiance</span>
+                  <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
+                    <Palette className="w-3.5 h-3.5 text-brand-primary" />
+                    <span>Campus Color Palettes</span>
                   </h4>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                     Choose your personalized campus color accent and dark mode display
                   </p>
                 </div>
@@ -890,8 +890,8 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                       onClick={() => setColorTheme(themeKey)}
                       className={`p-3 rounded-2xl border text-left flex items-center space-x-2.5 transition-all cursor-pointer ${
                         isSelected
-                          ? 'border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-500/20'
-                          : 'border-slate-200 bg-slate-50 hover:bg-slate-100/80'
+                          ? 'border-brand-primary bg-brand-subtle ring-2 ring-brand'
+                          : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700/80'
                       }`}
                     >
                       <div
@@ -899,8 +899,8 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                         style={{ backgroundColor: cfg.primaryColor }}
                       />
                       <div className="min-w-0">
-                        <div className="font-bold text-xs text-slate-900 truncate">{cfg.name}</div>
-                        <div className="text-[10px] text-slate-500 truncate">{cfg.badge}</div>
+                        <div className="font-bold text-xs text-slate-900 dark:text-white truncate">{cfg.name}</div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{cfg.badge}</div>
                       </div>
                     </button>
                   );
@@ -909,12 +909,12 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
               {/* Light / Dark / Auto Mode Selector */}
               <div className="pt-2">
-                <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 rounded-2xl border border-slate-200">
+                <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
                   <button
                     type="button"
                     onClick={() => setMode('light')}
                     className={`py-2 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
-                      mode === 'light' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                      mode === 'light' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
                     <Sun className="w-3.5 h-3.5 text-amber-500" />
@@ -925,7 +925,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     type="button"
                     onClick={() => setMode('dark')}
                     className={`py-2 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
-                      mode === 'dark' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                      mode === 'dark' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
                     <Moon className="w-3.5 h-3.5 text-indigo-400" />
@@ -936,22 +936,22 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     type="button"
                     onClick={() => setMode('system')}
                     className={`py-2 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
-                      mode === 'system' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                      mode === 'system' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
-                    <Monitor className="w-3.5 h-3.5 text-slate-500" />
+                    <Monitor className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
                     <span>Auto OS</span>
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-end pt-4 border-t border-slate-100">
+            <div className="flex items-center justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleSavePreferences}
                 disabled={saving}
-                className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold shadow-xs transition-colors flex items-center space-x-2 cursor-pointer disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-hover text-white text-xs sm:text-sm font-semibold shadow-brand transition-colors flex items-center space-x-2 cursor-pointer disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -974,32 +974,32 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
       {activeTab === 'wallet' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-4xl">
           {/* Main Wallet Top-up Interface */}
-          <div className="lg:col-span-2 bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
+          <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Digital Campus Wallet</h3>
-              <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Digital Campus Wallet</h3>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
                 Top up your student card for fast, queue-free checkout at INDIYA Floor 4th.
               </p>
             </div>
 
             {/* Current Balance Display */}
-            <div className="bg-slate-900 text-white rounded-2xl p-5 flex items-center justify-between">
+            <div className="bg-slate-900 text-white rounded-2xl p-5 flex items-center justify-between border border-slate-800">
               <div>
                 <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold block">
                   Available Balance
                 </span>
-                <span className="text-3xl font-extrabold text-emerald-400 font-mono">
+                <span className="text-3xl font-extrabold text-brand-primary font-mono">
                   ₹{currentWalletBalance.toFixed(2)}
                 </span>
               </div>
               <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                <Wallet className="w-5 h-5 text-emerald-300" />
+                <Wallet className="w-5 h-5 text-brand-primary" />
               </div>
             </div>
 
             {/* Quick Top-up Amount Selector */}
             <div className="space-y-3">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                 Select Recharge Amount
               </label>
 
@@ -1014,8 +1014,8 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     }}
                     className={`py-3 px-4 rounded-2xl border font-bold text-sm transition-all cursor-pointer ${
                       selectedTopUp === amt && !customTopUp
-                        ? 'border-emerald-600 bg-emerald-50 text-emerald-800 ring-2 ring-emerald-500/20'
-                        : 'border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800'
+                        ? 'border-brand-primary bg-brand-subtle text-brand-primary ring-2 ring-brand'
+                        : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200'
                     }`}
                   >
                     + ₹{amt}
@@ -1025,7 +1025,7 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
               {/* Custom amount */}
               <div className="pt-2">
-                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
                   Or enter custom amount (₹)
                 </label>
                 <div className="relative">
@@ -1037,19 +1037,19 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                     value={customTopUp}
                     onChange={(e) => setCustomTopUp(e.target.value)}
                     placeholder="e.g. 350"
-                    className="w-full pl-8 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    className="w-full pl-8 pr-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                   />
                 </div>
               </div>
             </div>
 
             {/* Recharge Action */}
-            <div className="pt-4 border-t border-slate-100">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleWalletRecharge}
                 disabled={saving}
-                className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
+                className="w-full py-3 rounded-xl bg-brand-primary hover:bg-brand-hover text-white font-bold text-sm shadow-brand transition-colors flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -1069,29 +1069,29 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           </div>
 
           {/* Wallet Perks & Benefits */}
-          <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 shadow-xs space-y-4">
-            <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+          <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xs space-y-4">
+            <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
               Campus Wallet Benefits
             </h4>
 
-            <div className="space-y-3 text-xs text-slate-600">
+            <div className="space-y-3 text-xs text-slate-600 dark:text-slate-300">
               <div className="flex items-start space-x-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-brand-primary shrink-0 mt-0.5" />
                 <span>Zero transaction fee & instant confirmation on all cafeteria orders.</span>
               </div>
               <div className="flex items-start space-x-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-brand-primary shrink-0 mt-0.5" />
                 <span>Automated express pickup at Floor 4th designated quick tokens lane.</span>
               </div>
               <div className="flex items-start space-x-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-brand-primary shrink-0 mt-0.5" />
                 <span>Auto-refunds for any cancelled orders back into wallet immediately.</span>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-200">
-              <div className="p-3 bg-white rounded-xl border border-slate-200 text-[11px] text-slate-500">
-                <span className="font-semibold text-slate-800">Support:</span> Need assistance with campus card balance? Visit Counter 1 at INDIYA Cafeteria.
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
+              <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-[11px] text-slate-500 dark:text-slate-400">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">Support:</span> Need assistance with campus card balance? Visit Counter 1 at INDIYA Cafeteria.
               </div>
             </div>
           </div>
@@ -1100,17 +1100,17 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
 
       {/* TAB 5: SECURITY & PASSWORD */}
       {activeTab === 'security' && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs max-w-2xl space-y-6">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs max-w-2xl space-y-6">
           <div>
-            <h3 className="text-lg font-bold text-slate-900">Security & Password</h3>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Security & Password</h3>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
               Update your account password to ensure your cafeteria orders and wallet remain secure.
             </p>
           </div>
 
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold text-slate-700">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                 Current Password <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
@@ -1120,14 +1120,14 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                  className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                 />
                 <Key className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold text-slate-700">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                 New Password <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
@@ -1138,14 +1138,14 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                   required
                   minLength={6}
                   placeholder="Minimum 6 characters"
-                  className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                  className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                 />
                 <Shield className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold text-slate-700">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                 Confirm New Password <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
@@ -1155,21 +1155,21 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   placeholder="Re-enter new password"
-                  className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                  className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand-primary transition-colors"
                 />
                 <Shield className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-              <div className="text-[11px] text-slate-500">
+            <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400">
                 Demo Accounts default: <span className="font-mono font-semibold">Student@123</span>
               </div>
 
               <button
                 type="submit"
                 disabled={saving}
-                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-semibold shadow-xs transition-colors flex items-center space-x-2 cursor-pointer disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-hover text-white text-xs sm:text-sm font-semibold shadow-brand transition-colors flex items-center space-x-2 cursor-pointer disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -1187,17 +1187,17 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onNavigate }) 
           </form>
 
           {/* Sign Out Card */}
-          <div className="pt-6 border-t border-slate-200 flex items-center justify-between">
+          <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
             <div>
-              <h4 className="text-xs font-bold text-slate-900">Session Management</h4>
-              <p className="text-[11px] text-slate-500">Sign out of this browser or device</p>
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">Session Management</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Sign out of this browser or device</p>
             </div>
             <button
               onClick={() => {
                 logout();
                 onNavigate('landing');
               }}
-              className="px-4 py-2 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-semibold transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 text-xs font-semibold transition-colors cursor-pointer"
             >
               Sign Out
             </button>

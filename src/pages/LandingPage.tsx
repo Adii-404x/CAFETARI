@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { QueueTicker } from '../components/QueueTicker';
 import { CafetariLogo } from '../components/CafetariLogo';
 import {
@@ -26,6 +27,7 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const { switchDemoAccount } = useAuth();
+  const { currentArchetype } = useTheme();
 
   const handleQuickLogin = async (role: UserRole) => {
     await switchDemoAccount(role);
@@ -35,7 +37,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="space-y-10 sm:space-y-12 py-4 sm:py-6">
+    <div className="space-y-8 sm:space-y-10 py-2 sm:py-4">
       {/* Live Queue Banner */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -50,86 +52,74 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         initial={{ opacity: 0, scale: 0.98, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 p-6 sm:p-10 md:p-14 text-center text-slate-900 dark:text-slate-100 shadow-sm transition-colors duration-300"
+        className="relative overflow-hidden archetype-card p-6 sm:p-10 md:p-12 text-slate-900 dark:text-slate-100 transition-colors duration-300"
       >
-        {/* Subtle Ambient Glow behind Hero */}
+        {/* Ambient Glow behind Hero */}
         <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-brand-subtle opacity-70 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-brand-subtle opacity-70 blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 flex justify-center mb-6">
-          <CafetariLogo size="responsive" showSubtitle={true} subtitleText="INDIYA Cafeteria • Floor 4th" className="scale-110 sm:scale-125" />
-        </div>
+        <div className="relative z-10 text-center space-y-4 max-w-3xl mx-auto">
+          <div className="flex justify-center">
+            <CafetariLogo size="responsive" showSubtitle={true} subtitleText="INDIYA Cafeteria • Floor 4th" className="scale-100 sm:scale-110" />
+          </div>
 
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="relative z-10 inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-brand-subtle border border-brand-subtle text-brand-primary text-xs font-bold uppercase tracking-wider mb-6 shadow-xs"
-        >
-          <MapPin className="w-3.5 h-3.5" />
-          <span>Express Pickup at Floor 4th Counter</span>
-        </motion.div>
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-brand-subtle border border-brand-subtle text-brand-primary text-xs font-black uppercase tracking-wider shadow-2xs">
+            <MapPin className="w-3.5 h-3.5" />
+            <span>Express Pickup at Floor 4th Counter</span>
+          </div>
 
-        <h1 className="relative z-10 text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-tight">
-          Say Goodbye to Long Queues.{' '}
-          <span className="text-brand-gradient">
-            Welcome to INDIYA Cafeteria.
-          </span>
-        </h1>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            Order Ahead.{' '}
+            <span className="text-brand-gradient">
+              Skip The Queue.
+            </span>
+          </h1>
 
-        <p className="relative z-10 mt-5 text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium">
-          Craving fresh <strong>Burgers, Grilled Sandwiches, Crispy Fries, Cold Coffee, Kulhad Chai, or Delicious Thalis</strong>? Order ahead or check live counter queues — pick up hot & fresh at Floor 4th Counter with your Token number (No Delivery).
-        </p>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-lg mx-auto leading-relaxed font-medium">
+            Order fresh meals, snacks & barista brews directly from your phone. Pick up hot with your token number at the Floor 4th Counter.
+          </p>
 
-        {/* Action Buttons with Spring physics */}
-        <div className="relative z-10 mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => onNavigate('menu')}
-            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-brand-primary hover:bg-brand-hover text-white font-black text-sm flex items-center justify-center space-x-2 shadow-brand transition-all cursor-pointer group"
-          >
-            <Utensils className="w-4.5 h-4.5" />
-            <span>Browse INDIYA Menu</span>
-            <ArrowRight className="w-4.5 h-4.5 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
+          {/* Action Buttons with Spring physics */}
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => onNavigate('menu')}
+              className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-brand-primary hover:bg-brand-hover text-white font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-brand transition-all cursor-pointer group"
+            >
+              <Utensils className="w-4 h-4" />
+              <span>Explore Menu</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
 
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => onNavigate('counter_queue')}
-            className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-brand-subtle hover:opacity-90 text-brand-primary border border-brand-subtle font-black text-sm flex items-center justify-center space-x-2 transition-all cursor-pointer"
-          >
-            <Clock className="w-4.5 h-4.5" />
-            <span>Check Counter Queue & Wait Time</span>
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => onNavigate('login')}
-            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-bold text-sm flex items-center justify-center space-x-2 transition-all cursor-pointer"
-          >
-            <span>Sign In</span>
-          </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => onNavigate('counter_queue')}
+              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-brand-subtle hover:opacity-90 text-brand-primary border border-brand-subtle font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-all cursor-pointer"
+            >
+              <Clock className="w-4 h-4" />
+              <span>Live Token Queue</span>
+            </motion.button>
+          </div>
         </div>
 
         {/* Live Metrics Grid */}
-        <div className="relative z-10 mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div className="relative z-10 mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
           <motion.div
             whileHover={{ y: -3 }}
             className="p-4 bg-slate-50/80 dark:bg-slate-800/60 rounded-2xl border border-slate-200/70 dark:border-slate-700/60 shadow-xs"
           >
             <div className="text-2xl font-black text-slate-900 dark:text-white">~8 min</div>
-            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-bold">Average Order Pickup</div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-bold">Avg Pickup Time</div>
           </motion.div>
           
           <motion.div
             whileHover={{ y: -3 }}
             className="p-4 bg-brand-subtle rounded-2xl border border-brand-subtle shadow-xs"
           >
-            <div className="text-2xl font-black text-brand-primary">92.4%</div>
-            <div className="text-[11px] text-brand-primary mt-0.5 font-bold">AI Prediction Accuracy</div>
+            <div className="text-2xl font-black text-brand-primary">Live</div>
+            <div className="text-[11px] text-brand-primary mt-0.5 font-bold">Digital Token Display</div>
           </motion.div>
 
           <motion.div
@@ -137,7 +127,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             className="p-4 bg-slate-50/80 dark:bg-slate-800/60 rounded-2xl border border-slate-200/70 dark:border-slate-700/60 shadow-xs"
           >
             <div className="text-2xl font-black text-slate-900 dark:text-white">0 min</div>
-            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-bold">Counter Standing Time</div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-bold">Counter Queue Wait</div>
           </motion.div>
 
           <motion.div
@@ -145,7 +135,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             className="p-4 bg-slate-50/80 dark:bg-slate-800/60 rounded-2xl border border-slate-200/70 dark:border-slate-700/60 shadow-xs"
           >
             <div className="text-2xl font-black text-amber-500">4.9/5 ★</div>
-            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-bold">Campus Student Rating</div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 font-bold">Campus Rating</div>
           </motion.div>
         </div>
       </motion.section>

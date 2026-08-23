@@ -1,0 +1,9 @@
+transaction_id,item_1,item_2,support,confidence,lift,discount_bundle_inr
+TX-1001,Crispy Samosa,Adrak Elaichi Chai,0.42,0.85,2.15,45
+TX-1002,Classic Veg Burger,Thick Cold Coffee,0.34,0.78,1.95,115
+TX-1003,Classic Veg Burger,Peri Peri French Fries,0.31,0.72,1.82,125
+TX-1004,Masala Dosa,Adrak Elaichi Chai,0.28,0.68,1.64,75
+TX-1005,Paneer Tikka Roll,Thick Cold Coffee,0.24,0.65,1.75,130
+TX-1006,Chole Bhature Platter,Adrak Elaichi Chai,0.22,0.62,1.55,120
+TX-1007,Executive Veg Thali,Warm Fudge Brownie,0.18,0.58,1.90,180
+TX-1008,Peri Peri French Fries,Thick Cold Coffee,0.26,0.69,1.70,100

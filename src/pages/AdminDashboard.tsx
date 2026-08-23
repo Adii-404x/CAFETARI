@@ -10,6 +10,7 @@ import {
 import { FoodModal } from '../components/FoodModal';
 import { AdminAnalyticsView } from '../components/AdminAnalyticsView';
 import { RushHeatmap } from '../components/RushHeatmap';
+import { AdminMlDemandHub } from '../components/admin/AdminMlDemandHub';
 import {
   LayoutDashboard,
   TrendingUp,
@@ -105,15 +106,29 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
     loadAllAdminData();
   }, []);
 
-  const handleRetrainPredictions = async () => {
+  const handleRetrainPredictions = async (targetDate: string = forecastDate, scenario: string = 'normal') => {
     setIsRetraining(true);
     try {
-      const res = await predictionApi.generateNewPredictions(forecastDate);
+      const res = await predictionApi.generateNewPredictions(targetDate, scenario);
       if (res.success && res.data) {
         setPredictions(res.data);
       }
     } catch (err) {
       console.error('Error retraining model:', err);
+    } finally {
+      setIsRetraining(false);
+    }
+  };
+
+  const handleScenarioChange = async (scenario: string, targetDate: string = forecastDate) => {
+    setIsRetraining(true);
+    try {
+      const res = await predictionApi.getPredictions(targetDate, scenario);
+      if (res.success && res.data) {
+        setPredictions(res.data);
+      }
+    } catch (err) {
+      console.error('Error changing scenario:', err);
     } finally {
       setIsRetraining(false);
     }
@@ -223,57 +238,105 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
         <div className="space-y-6">
           {/* Executive KPI Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white border border-slate-200 rounded-2xl p-5 space-y-2 shadow-xs">
-              <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-2 shadow-xs transition-colors">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
                 <span>Today's Total Orders</span>
                 <ShoppingBag className="w-4 h-4 text-emerald-600" />
               </div>
-              <div className="text-2xl font-black text-slate-900">
+              <div className="text-2xl font-black text-slate-900 dark:text-white">
                 {analytics?.overview.totalOrdersToday || 48}
               </div>
-              <div className="text-[11px] text-emerald-700 flex items-center space-x-1 font-medium">
+              <div className="text-[11px] text-emerald-700 dark:text-emerald-400 flex items-center space-x-1 font-medium">
                 <ArrowUpRight className="w-3 h-3" />
                 <span>+14% vs yesterday</span>
               </div>
             </div>
 
-            <div className="bg-white border border-slate-200 rounded-2xl p-5 space-y-2 shadow-xs">
-              <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-2 shadow-xs transition-colors">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
                 <span>Today's Revenue</span>
                 <span className="text-emerald-600 font-bold">₹</span>
               </div>
-              <div className="text-2xl font-black text-emerald-700">
+              <div className="text-2xl font-black text-emerald-700 dark:text-emerald-400">
                 ₹{analytics?.overview.revenueToday || 3840}
               </div>
-              <div className="text-[11px] text-emerald-700 flex items-center space-x-1 font-medium">
+              <div className="text-[11px] text-emerald-700 dark:text-emerald-400 flex items-center space-x-1 font-medium">
                 <ArrowUpRight className="w-3 h-3" />
                 <span>Zero payment defaults</span>
               </div>
             </div>
 
-            <div className="bg-white border border-slate-200 rounded-2xl p-5 space-y-2 shadow-xs">
-              <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-2 shadow-xs transition-colors">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
                 <span>Active Kitchen Queue</span>
                 <Clock className="w-4 h-4 text-amber-600" />
               </div>
-              <div className="text-2xl font-black text-amber-800">
+              <div className="text-2xl font-black text-amber-800 dark:text-amber-400">
                 {analytics?.overview.pendingOrders || 4} tickets
               </div>
-              <div className="text-[11px] text-slate-500 font-medium">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                 Avg prep time: ~{analytics?.overview.avgPrepTimeMinutes || 11} mins
               </div>
             </div>
 
-            <div className="bg-white border border-slate-200 rounded-2xl p-5 space-y-2 shadow-xs">
-              <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-2 shadow-xs transition-colors">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
                 <span>Campus Rating</span>
                 <Star className="w-4 h-4 text-amber-500" />
               </div>
-              <div className="text-2xl font-black text-emerald-700">
+              <div className="text-2xl font-black text-emerald-700 dark:text-emerald-400">
                 {analytics?.overview.averageRating || 4.8} / 5.0
               </div>
-              <div className="text-[11px] text-slate-500 font-medium">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                 Based on {analytics?.overview.totalRatingsCount || 24} student ratings
+              </div>
+            </div>
+          </div>
+
+          {/* Actionable AI Insights Section */}
+          <div className="bg-slate-900 text-white rounded-3xl p-6 border border-slate-800 shadow-md space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                  <Sparkles className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-black text-sm text-white">Actionable AI Copilot Recommendations</h3>
+                  <p className="text-xs text-slate-400">Live multi-model demand telemetry and kitchen prep advice</p>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30 px-2.5 py-0.5 rounded-full">
+                Real-time
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex items-start space-x-3">
+                <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <Flame className="w-4 h-4 fill-current" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-amber-400 bg-amber-500/20 px-2 py-0.5 rounded-md">
+                    Peak Surge Imminent
+                  </span>
+                  <p className="text-xs text-slate-200 font-medium leading-relaxed">
+                    Prepare staff for surge in Sandwich and Cold Coffee orders between 12:30 PM and 1:30 PM (94% confidence).
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex items-start space-x-3">
+                <div className="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <ShieldAlert className="w-4 h-4" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 bg-rose-500/20 px-2 py-0.5 rounded-md">
+                    Inventory Alert
+                  </span>
+                  <p className="text-xs text-slate-200 font-medium leading-relaxed">
+                    Almond milk and Butter Croissant stock will deplete by 2:00 PM at current velocity. Auto-reorder suggested.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -411,172 +474,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ initialTab = 'ov
         />
       )}
 
-      {/* TAB 3: AI DEMAND PREDICTION 🤖 */}
+      {/* TAB 3: AI DEMAND PREDICTION & ML HUB 🤖 */}
       {activeTab === 'predictions' && (
-        <div className="space-y-6">
-          {/* Top AI Controls */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 text-slate-900 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
-                <BrainCircuit className="w-3 h-3" />
-                <span>Machine Learning Demand Engine</span>
-              </div>
-              <h2 className="text-xl font-bold text-slate-900">
-                Tomorrow's Portion Demand Forecast ({predictions?.dayOfWeek}, {predictions?.date})
-              </h2>
-              <p className="text-xs text-slate-500">
-                Trained on cyclical calendar data, academic calendar spikes & historical moving averages.
-              </p>
-            </div>
-
-            <div className="flex items-center space-x-3 w-full md:w-auto">
-              <input
-                type="date"
-                value={forecastDate}
-                onChange={e => setForecastDate(e.target.value)}
-                className="bg-slate-50 border border-slate-200 text-xs text-slate-900 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-500 cursor-pointer shadow-xs"
-              />
-              <button
-                onClick={handleRetrainPredictions}
-                disabled={isRetraining}
-                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center space-x-2 shadow-xs transition-all cursor-pointer disabled:opacity-50"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${isRetraining ? 'animate-spin' : ''}`} />
-                <span>{isRetraining ? 'Evaluating Regressors...' : 'Re-train & Predict'}</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Model Comparison Scorecard */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {predictions?.modelsCompared.map((m, idx) => {
-              const isSelected = m.name === predictions.selectedModel;
-              return (
-                <div
-                  key={m.name || `model-${idx}`}
-                  className={`p-5 rounded-2xl border transition-all ${
-                    isSelected
-                      ? 'bg-emerald-50/50 border-emerald-400 shadow-xs ring-1 ring-emerald-400'
-                      : 'bg-white border-slate-200 shadow-xs'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-xs text-slate-900">{m.name}</h4>
-                    {isSelected && (
-                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-600 text-white shadow-xs">
-                        Selected Best
-                      </span>
-                    )}
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                    <div className="p-2 bg-slate-50 border border-slate-100 rounded-lg">
-                      <div className="text-[10px] text-slate-500 font-medium">MAE</div>
-                      <div className="font-bold text-emerald-700">{m.mae}</div>
-                    </div>
-                    <div className="p-2 bg-slate-50 border border-slate-100 rounded-lg">
-                      <div className="text-[10px] text-slate-500 font-medium">RMSE</div>
-                      <div className="font-bold text-slate-800">{m.rmse}</div>
-                    </div>
-                    <div className="p-2 bg-slate-50 border border-slate-100 rounded-lg">
-                      <div className="text-[10px] text-slate-500 font-medium">R² Score</div>
-                      <div className="font-bold text-emerald-700">{m.r2Score}</div>
-                    </div>
-                  </div>
-                  <div className="mt-3 text-[11px] text-slate-500 text-center font-medium">
-                    Accuracy Score: <strong className="text-slate-800">{m.accuracyPercent}%</strong>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Gemini AI Operational Copilot Insights Panel */}
-          {predictions?.aiInsights && (
-            <div className="bg-white border-2 border-emerald-500/30 rounded-3xl p-6 text-slate-900 shadow-xs space-y-4">
-              <div className="flex items-center space-x-2 text-emerald-700">
-                <Bot className="w-5 h-5" />
-                <h3 className="font-extrabold text-sm uppercase tracking-wider text-slate-900">
-                  Gemini AI Kitchen & Waste Optimization Advisor
-                </h3>
-              </div>
-
-              <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-2xl text-xs leading-relaxed text-slate-800 font-medium">
-                {typeof predictions.aiInsights === 'string'
-                  ? predictions.aiInsights
-                  : predictions.aiInsights.executiveSummary}
-              </div>
-
-              {typeof predictions.aiInsights !== 'string' && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
-                    <div className="font-bold text-amber-800">🔥 Rush Hour Surge Windows</div>
-                    <p className="text-slate-600 leading-relaxed">
-                      {predictions.aiInsights.peakRushHours}
-                    </p>
-                  </div>
-
-                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
-                    <div className="font-bold text-emerald-800">🌿 Perishable Waste Reduction</div>
-                    <p className="text-slate-600 leading-relaxed">
-                      {predictions.aiInsights.perishableWasteAdvice}
-                    </p>
-                  </div>
-
-                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
-                    <div className="font-bold text-slate-800">📦 Ingredient Procurement</div>
-                    <p className="text-slate-600 leading-relaxed">
-                      {predictions.aiInsights.procurementRecommendation}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Predictions Table */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 text-slate-900 space-y-4 shadow-xs">
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm text-slate-900">Item-wise Demand Allocations</h3>
-              <span className="text-xs text-emerald-700 font-bold">
-                Total Projected Demand: {predictions?.totalExpectedPortions} Portions
-              </span>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left text-slate-600">
-                <thead className="bg-slate-50 uppercase text-[10px] text-slate-500 font-bold border-b border-slate-200">
-                  <tr>
-                    <th className="p-3 rounded-l-lg">Food Item</th>
-                    <th className="p-3">Category</th>
-                    <th className="p-3">Forecast Portions</th>
-                    <th className="p-3">Safety Buffer (+12%)</th>
-                    <th className="p-3">Prep Advice</th>
-                    <th className="p-3 rounded-r-lg text-right">Projected Sales</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {predictions?.predictions.map((pred, idx) => (
-                    <tr key={pred.foodItemId || `pred-${idx}`} className="hover:bg-slate-50/70">
-                      <td className="p-3 font-semibold text-slate-900">{pred.name}</td>
-                      <td className="p-3 text-slate-500">{pred.category}</td>
-                      <td className="p-3 font-bold text-emerald-700 text-sm">{pred.predictedDemand}</td>
-                      <td className="p-3 text-emerald-700 font-medium">+{pred.bufferStock} extra</td>
-                      <td className="p-3">
-                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-[10px] font-semibold text-slate-700 border border-slate-200">
-                          {pred.prepRecommendation}
-                        </span>
-                      </td>
-                      <td className="p-3 text-right font-bold text-slate-900">₹{pred.expectedRevenue}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Real-Time Predictive AI Demand & Kitchen Rush Heatmap */}
-          <RushHeatmap />
-        </div>
+        <AdminMlDemandHub
+          predictions={predictions}
+          onScenarioChange={handleScenarioChange}
+          onRetrain={handleRetrainPredictions}
+          isRetraining={isRetraining}
+          forecastDate={forecastDate}
+          setForecastDate={setForecastDate}
+        />
       )}
 
       {/* TAB 4: MENU MANAGEMENT */}

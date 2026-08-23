@@ -238,9 +238,9 @@ export const MenuPage: React.FC<MenuPageProps> = ({ onOpenCart }) => {
 
       {/* Food Cards Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6 sm:gap-7">
           {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-            <div key={n} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl h-72 animate-pulse" />
+            <div key={n} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl h-80 animate-pulse" />
           ))}
         </div>
       ) : items.length === 0 ? (
@@ -266,7 +266,7 @@ export const MenuPage: React.FC<MenuPageProps> = ({ onOpenCart }) => {
       ) : (
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6 sm:gap-7"
         >
           {items.map(item => (
             <MenuCard key={item.id} item={item} />

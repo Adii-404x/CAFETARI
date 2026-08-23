@@ -5,8 +5,11 @@ import { AuthRequest } from '../middleware/auth';
 
 export async function getPredictions(req: AuthRequest, res: Response) {
   try {
-    const { date, forceRefresh } = req.query;
-    const predictionResult = DemandPredictionService.runPredictionPipeline(date as string);
+    const { date, scenario = 'normal', forceRefresh } = req.query;
+    const predictionResult = DemandPredictionService.runPredictionPipeline(
+      date as string,
+      scenario as string
+    );
 
     // Fetch AI insights from Gemini Advisor
     const aiInsights = await generateAiDemandInsights(
@@ -34,8 +37,11 @@ export async function getPredictions(req: AuthRequest, res: Response) {
 
 export async function generateNewPredictions(req: AuthRequest, res: Response) {
   try {
-    const { targetDate } = req.body;
-    const predictionResult = DemandPredictionService.runPredictionPipeline(targetDate);
+    const { targetDate, scenario = 'normal' } = req.body;
+    const predictionResult = DemandPredictionService.runPredictionPipeline(
+      targetDate,
+      scenario
+    );
 
     const aiInsights = await generateAiDemandInsights(
       predictionResult.date,

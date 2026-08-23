@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useQueue } from '../context/QueueContext';
 import { CafetariLogo } from './CafetariLogo';
-import { ThemeChooserModal } from './ThemeChooserModal';
+import { UiDesignStudio } from './UiDesignStudio';
 import { useTheme } from '../context/ThemeContext';
 import {
   Utensils,
@@ -20,7 +20,9 @@ import {
   X,
   ShieldCheck,
   ChevronDown,
-  Palette
+  Palette,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { UserRole } from '../types/index';
 import { motion, AnimatePresence } from 'motion/react';
@@ -34,7 +36,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
   const { user, isAuthenticated, logout, switchDemoAccount } = useAuth();
   const { totalCount, setDrawerOpen } = useCart();
   const { queueStatus, activeOrder } = useQueue();
-  const { colorTheme, isDark } = useTheme();
+  const { colorTheme, isDark, toggleDarkMode } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [demoDropdownOpen, setDemoDropdownOpen] = useState(false);
@@ -54,44 +56,44 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-2xs transition-colors">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-15 sm:h-16 gap-1 sm:gap-4">
+    <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-xs transition-colors">
+      <div className="max-w-[1560px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+        <div className="flex items-center justify-between h-16 gap-3 lg:gap-6">
           {/* Brand Logo */}
           <div
-            className="flex items-center space-x-2 cursor-pointer group shrink-0 min-w-0 pr-1"
+            className="flex items-center space-x-2 cursor-pointer group shrink-0 min-w-0"
             onClick={() => handleNav(isAuthenticated ? (user?.role === 'admin' ? 'admin_dashboard' : user?.role === 'staff' ? 'staff_kds' : 'student_dashboard') : 'landing')}
           >
             <CafetariLogo size="responsive" showSubtitle={true} subtitleText="INDIYA • Floor 4th" />
           </div>
 
-          {/* Center: Live Queue Status Pill (Clickable to open Counter Queue Monitor) */}
+          {/* Center-Left: Live Queue Status Pill */}
           <motion.div
             whileHover={{ scale: 1.02 }}
             onClick={() => handleNav('counter_queue')}
-            className="hidden md:flex items-center space-x-3 bg-slate-100/90 dark:bg-slate-800/80 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-1.5 text-xs transition-colors cursor-pointer"
+            className="hidden xl:flex items-center space-x-2.5 bg-slate-100/90 dark:bg-slate-800/80 hover:bg-slate-200/80 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 rounded-full px-3.5 py-1.5 text-xs transition-colors cursor-pointer shrink-0"
             title="Click to view full live counter queue length and wait-time monitor"
           >
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1.5">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
               </span>
-              <span className="text-slate-600 dark:text-slate-300 font-medium">Serving Token:</span>
-              <span className="font-black text-brand-primary bg-brand-subtle px-2 py-0.5 rounded-md text-xs border border-brand-subtle">
+              <span className="text-slate-500 dark:text-slate-400 font-medium">Serving:</span>
+              <span className="font-black text-brand-primary bg-brand-subtle px-1.5 py-0.5 rounded text-xs border border-brand-subtle">
                 #{queueStatus?.currentlyServingToken || 118}
               </span>
             </div>
 
-            <span className="text-slate-300 dark:text-slate-700">|</span>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
             <div className="flex items-center space-x-1 text-slate-600 dark:text-slate-300 font-medium">
               <Clock className="w-3.5 h-3.5 text-brand-primary" />
-              <span>Wait: ~{queueStatus?.estimatedWaitMinutes || 10}m</span>
+              <span>~{queueStatus?.estimatedWaitMinutes || 10}m wait</span>
             </div>
 
             {activeOrder && (
               <>
-                <span className="text-slate-300 dark:text-slate-700">|</span>
+                <span className="text-slate-300 dark:text-slate-700">•</span>
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
@@ -365,14 +367,30 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
               )}
             </div>
 
+            {/* 1-Click Dark/Light Mode Quick Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleDarkMode}
+              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-all cursor-pointer shadow-2xs"
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {isDark ? (
+                <Sun className="w-4.5 h-4.5 text-amber-400 hover:rotate-45 transition-transform" />
+              ) : (
+                <Moon className="w-4.5 h-4.5 text-indigo-600 hover:-rotate-12 transition-transform" />
+              )}
+            </motion.button>
+
             {/* Theme Chooser Trigger */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsThemeOpen(true)}
               className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-all cursor-pointer group shadow-2xs"
-              title="Theme Chooser & Palette Ambiance"
-              aria-label="Theme Chooser"
+              title="Campus Color Palettes"
+              aria-label="Campus Color Palettes"
             >
               <Palette className="w-4.5 h-4.5 text-brand-primary group-hover:rotate-12 transition-transform" />
             </motion.button>
@@ -602,12 +620,25 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                 </button>
               </>
             )}
+
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setIsThemeOpen(true);
+                }}
+                className="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold text-slate-800 dark:text-slate-200 bg-slate-100/70 dark:bg-slate-800/70 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center space-x-2 cursor-pointer"
+              >
+                <Palette className="w-4 h-4 text-brand-primary" />
+                <span>Campus Color Palettes</span>
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Theme Chooser Modal */}
-      <ThemeChooserModal
+      {/* UI Design Studio & Archetype Selector Modal */}
+      <UiDesignStudio
         isOpen={isThemeOpen}
         onClose={() => setIsThemeOpen(false)}
       />

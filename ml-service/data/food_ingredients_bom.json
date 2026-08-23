@@ -1,0 +1,31 @@
+{
+  "inventory_stock_current": {
+    "milk_litres": 45.0,
+    "potatoes_kg": 38.0,
+    "dosa_batter_kg": 22.0,
+    "burger_buns_units": 90,
+    "veg_patty_units": 85,
+    "tea_leaves_kg": 6.5,
+    "paneer_kg": 18.0,
+    "cooking_oil_litres": 25.0,
+    "rice_kg": 30.0,
+    "chocolate_syrup_bottles": 8
+  },
+  "reorder_thresholds": {
+    "milk_litres": 15.0,
+    "potatoes_kg": 10.0,
+    "dosa_batter_kg": 6.0,
+    "burger_buns_units": 25,
+    "veg_patty_units": 20,
+    "paneer_kg": 5.0,
+    "cooking_oil_litres": 8.0
+  },
+  "shelf_life_days": {
+    "milk_litres": 2,
+    "potatoes_kg": 14,
+    "dosa_batter_kg": 3,
+    "burger_buns_units": 4,
+    "paneer_kg": 3,
+    "cooked_chole_batches": 1
+  }
+}
