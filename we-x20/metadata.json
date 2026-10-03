@@ -1,6 +1,0 @@
-{
-  "name": "CAFETARI",
-  "description": "Smart College Cafeteria Management Platform (CAFETARI) with live queue tracking, digital ordering, and Floor 4th counter service.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

@@ -1,4 +1,0 @@
-{
-  "status": "not_trained",
-  "message": "Training metadata is written here when the ML service starts. No validation scores are available until training completes."
-}

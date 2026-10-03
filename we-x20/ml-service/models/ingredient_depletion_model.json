@@ -1,6 +1,0 @@
-{
-  "model": "Ingredient Demand Decomposition & Spoilage Minimizer",
-  "bom_rules_loaded": 10,
-  "stockout_risk_threshold_hours": 4,
-  "spoilage_reduction_target_pct": 28.5
-}
